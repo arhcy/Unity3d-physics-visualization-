@@ -33,3 +33,6 @@ sysinfo.txt
 *.apk
 *.unitypackage
 PhysicsVisualization/Assets/DebugDrawingExtension/DebugExtension.cs
+ProjectSettings/
+UnityPackageManager/manifest.json
+Assets/DebugDrawingExtension.meta
