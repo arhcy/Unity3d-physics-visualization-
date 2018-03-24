@@ -8,6 +8,8 @@ namespace artics.UnityPhisicsVisualizers
     /// You can enable and disable visualization by <see cref = "IsVisible" /> parameter
     /// If collider don't change his Offset, Size, and Direction - you can disable <see cref="DynamicBounds"/> to increase performance
     /// </summary>
+    /// 
+    [RequireComponent(typeof(CircleCollider2D))]
     public class Circle2dVisualizer : BaseVisualizer
     {
         protected CircleCollider2D Collider;
