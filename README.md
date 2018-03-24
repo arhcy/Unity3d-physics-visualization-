@@ -6,7 +6,7 @@ Tool to help you visualize 2d physics colliders. Just add the proper component t
 Currently supports:
  * `Box2dVisualizer` for 	`BoxCollider2D` *(EdgeRadius not supported)*
  * `Capsule2dVisualizer` for `CapsuleCollider2D`
- * `1Circle2dVisualizer` for `CircleCollider2D`
+ * `Circle2dVisualizer` for `CircleCollider2D`
  * `Edge2dVisualizer` for `EdgeCollider2D`
  * `Polygon2dVisualizer` for `PolygonCollider2D` *(Multiple polygon Paths not supported)*
 
