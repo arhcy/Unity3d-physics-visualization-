@@ -4,7 +4,7 @@ using UnityEngine;
 namespace artics.UnityPhisicsVisualizers
 {
     /// <summary>
-    /// Draws gizmos of <seealso cref="CapsuleCollider2D"/> which attached for current GameObject.
+    /// Draws gizmos of <seealso cref="BoxCollider2D"/> which attached for current GameObject.
     /// EdgeRadius is not supported
     /// </summary>
     [RequireComponent(typeof(BoxCollider2D))]
