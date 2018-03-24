@@ -4,7 +4,7 @@ using UnityEngine;
 namespace artics.UnityPhisicsVisualizers
 {
     /// <summary>
-    /// Draws gizmos of <seealso cref="PolygonCollider2D"/> which attached for current GameObject.
+    /// Draws gizmos of <seealso cref="EdgeCollider2D"/> which attached for current GameObject.
     /// You can enable and disable visualization by <see cref = "IsVisible" /> parameter
     /// If collider don't change his Offset, Size, and Direction - you can disable <see cref="DynamicBounds"/> to increase performance
     /// </summary>
@@ -40,8 +40,29 @@ namespace artics.UnityPhisicsVisualizers
 
         protected override void Draw()
         {
-            for (int i = 0; i < PointsLenght - 1; i++)
-                Gizmos.DrawLine(MultipliedPoints[i], MultipliedPoints[i + 1]);
+            if (Collider.edgeRadius == 0)
+            {
+                for (int i = 0; i < PointsLenght - 1; i++)
+                    Gizmos.DrawLine(MultipliedPoints[i], MultipliedPoints[i + 1]);
+            }
+            else
+            {
+                float radius = Collider.edgeRadius;
+
+                for (int i = 0; i < PointsLenght - 1; i++)
+                {
+                    Vector2 HelperVector = MultipliedPoints[i + 1] - MultipliedPoints[i];
+                    HelperVector.Normalize();
+                    HelperVector *= radius;
+
+                    Gizmos.DrawLine(new Vector3(MultipliedPoints[i].x - HelperVector.y, MultipliedPoints[i].y + HelperVector.x), new Vector3(MultipliedPoints[i + 1].x - HelperVector.y, MultipliedPoints[i + 1].y + HelperVector.x));
+                    Gizmos.DrawLine(new Vector3(MultipliedPoints[i].x + HelperVector.y, MultipliedPoints[i].y - HelperVector.x), new Vector3(MultipliedPoints[i + 1].x + HelperVector.y, MultipliedPoints[i + 1].y - HelperVector.x));
+
+                    DebugExtension.DrawCircle(MultipliedPoints[i], Vector3.forward, Color.white, radius);
+                }
+
+                DebugExtension.DrawCircle(MultipliedPoints[PointsLenght - 1], Vector3.forward, Color.white, Collider.edgeRadius);
+            }
         }
 
     }
