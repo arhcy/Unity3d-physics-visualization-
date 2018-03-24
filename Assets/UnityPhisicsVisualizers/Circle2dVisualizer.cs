@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace artics.UnityPhisicsVisualizers
 {
+    /// <summary>
+    /// Draws gizmos of <seealso cref="CircleCollider2D"/> which attached for current GameObject.
+    /// You can enable and disable visualization by <see cref = "IsVisible" /> parameter
+    /// If collider don't change his Offset, Size, and Direction - you can disable <see cref="DynamicBounds"/> to increase performance
+    /// </summary>
     public class Circle2dVisualizer : BaseVisualizer
     {
         protected CircleCollider2D Collider;
