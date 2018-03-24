@@ -26,7 +26,7 @@ namespace artics.UnityPhisicsVisualizers
             Init();
         }
 
-        [ContextMenu("Tnit")]
+        [ContextMenu("Init")]
         public virtual void Init()
         {
             UpdateBounds();

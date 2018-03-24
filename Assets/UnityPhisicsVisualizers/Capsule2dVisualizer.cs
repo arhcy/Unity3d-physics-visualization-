@@ -20,7 +20,7 @@ namespace artics.UnityPhisicsVisualizers
         protected float Radius = 0;
 
 
-        [ContextMenu("Tnit")]
+        [ContextMenu("Init")]
         public override void Init()
         {
             Collider = GetComponent<CapsuleCollider2D>();
