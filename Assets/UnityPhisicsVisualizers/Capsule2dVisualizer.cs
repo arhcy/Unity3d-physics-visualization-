@@ -77,7 +77,7 @@ namespace artics.UnityPhisicsVisualizers
         /// </summary>
         protected override void Draw()
         {
-            DebugExtension.DrawCapsule(MultipliedStartPosition, MultipliedEndPosition, Radius);
+            DebugExtension.DrawCapsule(MultipliedStartPosition, MultipliedEndPosition, Color, Radius);
         }
     }
 }

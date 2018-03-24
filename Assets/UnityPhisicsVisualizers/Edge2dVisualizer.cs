@@ -40,6 +40,8 @@ namespace artics.UnityPhisicsVisualizers
 
         protected override void Draw()
         {
+            Gizmos.color = Color;
+
             if (Collider.edgeRadius == 0)
             {
                 for (int i = 0; i < PointsLenght - 1; i++)
@@ -58,10 +60,10 @@ namespace artics.UnityPhisicsVisualizers
                     Gizmos.DrawLine(new Vector3(MultipliedPoints[i].x - HelperVector.y, MultipliedPoints[i].y + HelperVector.x), new Vector3(MultipliedPoints[i + 1].x - HelperVector.y, MultipliedPoints[i + 1].y + HelperVector.x));
                     Gizmos.DrawLine(new Vector3(MultipliedPoints[i].x + HelperVector.y, MultipliedPoints[i].y - HelperVector.x), new Vector3(MultipliedPoints[i + 1].x + HelperVector.y, MultipliedPoints[i + 1].y - HelperVector.x));
 
-                    DebugExtension.DrawCircle(MultipliedPoints[i], Vector3.forward, Color.white, radius);
+                    DebugExtension.DrawCircle(MultipliedPoints[i], Vector3.forward, Color, radius);
                 }
 
-                DebugExtension.DrawCircle(MultipliedPoints[PointsLenght - 1], Vector3.forward, Color.white, Collider.edgeRadius);
+                DebugExtension.DrawCircle(MultipliedPoints[PointsLenght - 1], Vector3.forward, Color, Collider.edgeRadius);
             }
         }
 

@@ -42,6 +42,8 @@ namespace artics.UnityPhisicsVisualizers
 
         protected override void Draw()
         {
+            Gizmos.color = Color;
+
             Gizmos.DrawLine(MultipliedPoints[0], MultipliedPoints[1]);
             Gizmos.DrawLine(MultipliedPoints[2], MultipliedPoints[3]);
             Gizmos.DrawLine(MultipliedPoints[1], MultipliedPoints[3]);

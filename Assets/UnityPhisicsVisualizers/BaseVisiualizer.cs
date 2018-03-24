@@ -21,6 +21,8 @@ namespace artics.UnityPhisicsVisualizers
         /// </summary>
         public bool DynamicBounds = true;
 
+        public Color Color = Color.white;
+
         private void Awake()
         {
             Init();

@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 114964954}
   - component: {fileID: 114964953}
   m_Layer: 0
-  m_Name: Polygin
+  m_Name: Polygon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsVisible: 1
   DynamicBounds: 1
+  Color: {r: 1, g: 0.9310343, b: 0, a: 1}
 --- !u!60 &114964954
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -215,7 +216,7 @@ EdgeCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
+  m_EdgeRadius: 0.32
   m_Points:
   - {x: -5.066408, y: 12.270853}
   - {x: -6.7966514, y: 8.72565}
@@ -250,6 +251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsVisible: 1
   DynamicBounds: 1
+  Color: {r: 0, g: 0, b: 0, a: 1}
 --- !u!1 &1432773408
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,6 +283,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsVisible: 1
   DynamicBounds: 1
+  Color: {r: 1, g: 0, b: 0, a: 1}
 --- !u!58 &1432773410
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -360,6 +363,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsVisible: 1
   DynamicBounds: 1
+  Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!61 &1626511914
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -530,6 +534,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsVisible: 1
   DynamicBounds: 1
+  Color: {r: 0, g: 1, b: 0.37931013, a: 1}
 --- !u!70 &1745531860
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

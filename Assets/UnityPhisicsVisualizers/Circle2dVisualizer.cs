@@ -39,7 +39,7 @@ namespace artics.UnityPhisicsVisualizers
 
         protected override void Draw()
         {
-            DebugExtension.DrawCircle(MultipliedCenter, Vector3.forward, Color.white, MultipliedRadius);
+            DebugExtension.DrawCircle(MultipliedCenter, Vector3.forward, Color, MultipliedRadius);
         }
 
 
