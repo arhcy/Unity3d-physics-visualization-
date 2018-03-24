@@ -5,8 +5,7 @@ namespace artics.UnityPhisicsVisualizers
 {
     /// <summary>
     /// Draws gizmos of <seealso cref="PolygonCollider2D"/> which attached for current GameObject.
-    /// You can enable and disable visualization by <see cref = "IsVisible" /> parameter
-    /// If collider don't change his Offset, Size, and Direction - you can disable <see cref="DynamicBounds"/> to increase performance
+    /// Multiple polygon Paths not supported
     /// </summary>
 
     [RequireComponent(typeof(PolygonCollider2D))]
