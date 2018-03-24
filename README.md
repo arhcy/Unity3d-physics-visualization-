@@ -18,3 +18,5 @@ Currently supports:
   * `IsVisible` Enables or disables rendering of collider.
   * `DynamicBounds` Updates bounds of collider every time OnDrawGizmos calls. Useful when you changing Offset, Size, Radius, e.t. of the collider. If you don't just disable to increase performance.
   * `Color` Color of rendered collider.
+  
+  ![Screenshot](/Screenshots/Scr1.png)
