@@ -1,4 +1,5 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
+using System;
 using UnityEngine;
 
 namespace artics.UnityPhisicsVisualizers
@@ -42,7 +43,34 @@ namespace artics.UnityPhisicsVisualizers
             DebugExtension.DrawCircle(MultipliedCenter, Vector3.forward, Color, MultipliedRadius);
         }
 
+        public override IDrawData CreateDrawData()
+        {
+            Circle2DDrawData data = new Circle2DDrawData();
+            data.MultipliedCenter = MultipliedCenter;
+            data.MultipliedRadius = MultipliedRadius;
 
+            return data;
+        }
+    }
 
+    /// <summary>
+    /// struct to store calculated data and draw it outside of class
+    /// </summary>
+    [System.Serializable]
+    public struct Circle2DDrawData : IDrawData
+    {
+        public Vector2 MultipliedCenter;
+        public float MultipliedRadius;
+        public Color Color;
+
+        public void Draw()
+        {
+            DebugExtension.DrawCircle(MultipliedCenter, Vector3.forward, Color, MultipliedRadius);
+        }
+
+        public void Draw(Color color)
+        {
+            DebugExtension.DrawCircle(MultipliedCenter, Vector3.forward, color, MultipliedRadius);
+        }
     }
 }

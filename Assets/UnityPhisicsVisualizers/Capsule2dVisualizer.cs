@@ -17,8 +17,7 @@ namespace artics.UnityPhisicsVisualizers
         protected Vector2 EndPosition;
         protected Vector2 MultipliedStartPosition;
         protected Vector2 MultipliedEndPosition;
-        protected float Radius = 0;
-
+        public float Radius;
 
         [ContextMenu("Init")]
         public override void Init()
@@ -26,7 +25,7 @@ namespace artics.UnityPhisicsVisualizers
             Collider = GetComponent<CapsuleCollider2D>();
             base.Init();
         }
-        
+
         /// <summary>
         /// Update bounds of collider manually.  Use it if you changed Offset, Size or Direction of the collider.
         /// </summary>
@@ -78,6 +77,39 @@ namespace artics.UnityPhisicsVisualizers
         protected override void Draw()
         {
             DebugExtension.DrawCapsule(MultipliedStartPosition, MultipliedEndPosition, Color, Radius);
+        }
+
+        public override IDrawData CreateDrawData()
+        {
+            Capsule2DDrawData data = new Capsule2DDrawData();
+            data.Color = Color;
+            data.MultipliedEndPosition = MultipliedEndPosition;
+            data.MultipliedStartPosition = MultipliedStartPosition;
+            data.Radius = Radius;
+
+            return data;
+        }
+    }
+
+    /// <summary>
+    /// struct to store calculated data and draw it outside of class
+    /// </summary>
+    [System.Serializable]
+    public struct Capsule2DDrawData : IDrawData
+    {
+        public Vector2 MultipliedStartPosition;
+        public Vector2 MultipliedEndPosition;
+        public float Radius;
+        public Color Color;
+
+        public void Draw()
+        {
+            DebugExtension.DrawCapsule(MultipliedStartPosition, MultipliedEndPosition, Color, Radius);
+        }
+
+        public void Draw(Color color)
+        {
+            DebugExtension.DrawCapsule(MultipliedStartPosition, MultipliedEndPosition, color, Radius);
         }
     }
 }

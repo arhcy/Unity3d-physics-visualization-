@@ -69,5 +69,10 @@ namespace artics.UnityPhisicsVisualizers
 
         }
 
+        public virtual IDrawData CreateDrawData()
+        {
+            return null;
+        }
+
     }
 }

@@ -67,5 +67,9 @@ namespace artics.UnityPhisicsVisualizers
             }
         }
 
+        public override IDrawData CreateDrawData()
+        {
+            throw new System.NotFiniteNumberException();
+        }
     }
 }

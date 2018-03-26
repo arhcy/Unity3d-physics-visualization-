@@ -1,4 +1,5 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
+using System;
 using UnityEngine;
 
 namespace artics.UnityPhisicsVisualizers
@@ -8,7 +9,7 @@ namespace artics.UnityPhisicsVisualizers
     /// EdgeRadius is not supported
     /// </summary>
     [RequireComponent(typeof(BoxCollider2D))]
-    public class Box2dVisualizer:BaseVisualizer
+    public class Box2dVisualizer : BaseVisualizer
     {
         protected BoxCollider2D Collider;
         protected Vector2[] Points;
@@ -19,7 +20,7 @@ namespace artics.UnityPhisicsVisualizers
             Collider = GetComponent<BoxCollider2D>();
             Points = new Vector2[4];
             MultipliedPoints = new Vector2[4];
-            
+
             base.Init();
         }
 
@@ -50,5 +51,39 @@ namespace artics.UnityPhisicsVisualizers
             Gizmos.DrawLine(MultipliedPoints[2], MultipliedPoints[0]);
         }
 
+        public override IDrawData CreateDrawData()
+        {
+            Box2DDrawData drawData = new Box2DDrawData();
+            drawData.Color = Color;
+            drawData.MultipliedPoints = new Vector2[4];
+            Array.Copy(MultipliedPoints, drawData.MultipliedPoints, 4);
+
+            return drawData;
+        }
+    }
+
+    /// <summary>
+    /// struct to store calculated data and draw it outside of class
+    /// </summary>
+    [System.Serializable]
+    public struct Box2DDrawData : IDrawData
+    {
+        public Vector2[] MultipliedPoints;
+        public Color Color;
+
+        public void Draw()
+        {
+            Draw(Color);
+        }
+
+        public void Draw(Color color)
+        {
+            Gizmos.color = Color;
+
+            Gizmos.DrawLine(MultipliedPoints[0], MultipliedPoints[1]);
+            Gizmos.DrawLine(MultipliedPoints[2], MultipliedPoints[3]);
+            Gizmos.DrawLine(MultipliedPoints[1], MultipliedPoints[3]);
+            Gizmos.DrawLine(MultipliedPoints[2], MultipliedPoints[0]);
+        }
     }
 }
