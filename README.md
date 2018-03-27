@@ -3,7 +3,9 @@
 
 Tool to help you visualize 2d physics colliders and track their transform at runtime. Just add the proper component to GameObject with a Collider2d.
 
- ![Screenshot](/Screenshots/MovementLogger.gif)
+ <p align="center">
+ <img align="center" src="/Screenshots/MovementLogger.gif">
+ </p>
  
 Currently supports:
  * `Box2dVisualizer` for 	`BoxCollider2D` *(EdgeRadius not supported)*
@@ -15,11 +17,24 @@ Currently supports:
 
  You also need to install Debug Drawing Extension https://assetstore.unity.com/packages/tools/debug-drawing-extension-11396
  
- ###### Don't forget to enable Gizmos visibility
+ #### Don't forget to enable Gizmos visibility
  
- You can manipulate with 3 params:
+ ### You can manipulate with 3 params:
   * `IsVisible` Enables or disables rendering of collider.
   * `DynamicBounds` Updates bounds of collider every time OnDrawGizmos calls. Useful when you changing Offset, Size, Radius, e.t. of the collider. If you don't just disable to increase performance.
   * `Color` Color of rendered collider.
   
-  ![Screenshot](/Screenshots/Scr1.png)
+   ### Use MovementLogger to track objects transform at runtime. You can manipultate with 8 params:
+   * `BufferSize` limit number of records, set 0 if unlimited
+   * `RecordInterval` limit time of data storing, set 0 if you wat to do it every Update
+   * `Color` Color of visualization
+   * `Record` enable recording
+   * `DrawPoints` enable visualizing of position points
+   * `DrawLines` enable visualizing of path
+   * `RecordObjectState` Records collider visualizer state, requires class inherited from BaseVisualizer
+   * `DrawState` Draws collider visualizer state   
+   
+   #### Example:
+ <p align="center">
+ <img align="center" width="80%" src="/Screenshots/Scr1.png">
+ </p>
