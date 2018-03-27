@@ -1,14 +1,17 @@
 # Unity3d Physics2d Visualizer *[work in progress]*
 
 
-Tool to help you visualize 2d physics colliders. Just add the proper component to GameObject with a Collider2d.
+Tool to help you visualize 2d physics colliders and track their transform at runtime. Just add the proper component to GameObject with a Collider2d.
 
+ ![Screenshot](/Screenshots/MovementLogger.gif)
+ 
 Currently supports:
  * `Box2dVisualizer` for 	`BoxCollider2D` *(EdgeRadius not supported)*
  * `Capsule2dVisualizer` for `CapsuleCollider2D`
  * `Circle2dVisualizer` for `CircleCollider2D`
  * `Edge2dVisualizer` for `EdgeCollider2D`
- * `Polygon2dVisualizer` for `PolygonCollider2D` *(Multiple polygon Paths not supported)*
+ * `Polygon2dVisualizer` for `PolygonCollider2D` *(Multiple polygon Paths not supported)* 
+ * `MovementLogger` for tracking object's position and transform *(Edgae collider not supported)*
 
  You also need to install Debug Drawing Extension https://assetstore.unity.com/packages/tools/debug-drawing-extension-11396
  
