@@ -63,7 +63,7 @@ namespace artics.UnityPhisicsVisualizers
         protected BaseVisualizer Visualizer;
         protected float TimeLeft;
 
-        void Awake()
+        void Start()
         {
             Visualizer = GetComponent<BaseVisualizer>();
 
