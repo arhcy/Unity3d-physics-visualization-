@@ -7,7 +7,7 @@ Tool to help you visualize 2d physics colliders and track their transform at run
  <img align="center" src="/Screenshots/MovementLogger.gif">
  </p>
  
-Currently supports:
+### Currently supports:
  * `Box2dVisualizer` for 	`BoxCollider2D` *(EdgeRadius not supported)*
  * `Capsule2dVisualizer` for `CapsuleCollider2D`
  * `Circle2dVisualizer` for `CircleCollider2D`
@@ -15,9 +15,9 @@ Currently supports:
  * `Polygon2dVisualizer` for `PolygonCollider2D` *(Multiple polygon Paths not supported)* 
  * `MovementLogger` for tracking object's position and transform *(Edgae collider not supported)*
 
- You also need to install Debug Drawing Extension https://assetstore.unity.com/packages/tools/debug-drawing-extension-11396
- 
- #### Don't forget to enable Gizmos visibility
+### Warning:
+ * You also need to install Debug Drawing Extension https://assetstore.unity.com/packages/tools/debug-drawing-extension-11396 
+ * Don't forget to enable Gizmos visibility
  
  ### You can manipulate with 3 params:
   * `IsVisible` Enables or disables rendering of collider.
@@ -34,7 +34,7 @@ Currently supports:
    * `RecordObjectState` Records collider visualizer state, requires class inherited from BaseVisualizer
    * `DrawState` Draws collider visualizer state   
    
-   #### Example:
+   ### Example:
  <p align="center">
  <img align="center" width="80%" src="/Screenshots/Scr1.png">
  </p>
