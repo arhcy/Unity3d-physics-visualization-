@@ -8,7 +8,7 @@ namespace artics.UnityPhisicsVisualizers
     /// You can enable and disable visualization by <see cref = "IsVisible" /> parameter
     /// If collider don't change his Offset, Size, and Direction - you can disable <see cref="DynamicBounds"/> to increase performance
     /// </summary>
-    [ExecuteInEditMode]
+    [ExecuteInEditMode][DisallowMultipleComponent]
     public class BaseVisualizer : MonoBehaviour
     {
         /// <summary>
