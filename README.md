@@ -38,3 +38,10 @@ Tool to help you visualize 2d physics colliders and track their transform at run
  <p align="center">
  <img align="center" width="80%" src="/Screenshots/Scr1.png">
  </p>
+ 
+    
+   ### Tools in menu:
+ <p align="center">
+ <img align="center" width="60%" src="/Screenshots/Screenshot_50.png">
+ </p>
+   
