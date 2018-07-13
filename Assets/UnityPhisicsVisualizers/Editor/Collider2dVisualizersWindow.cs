@@ -20,7 +20,7 @@ public class Collider2dVisualizersWindow : EditorWindow
 
 
     // Add menu named "My Window" to the Window menu
-    [MenuItem("Tools/Physics2dVisualizer/OpenManager", false, 0)]
+    [MenuItem("Tools/Physics2dVisualizer/Open Manager", false, 0)]
     static void Init()
     {
         // Get existing open window or if none, make a new one:
