@@ -5,7 +5,9 @@ Tool to help you visualize 2d physics colliders and track their transform at run
  <p align="center">
  <img align="center" src="/Screenshots/MovementLogger.gif">
  </p>
- 
+
+# New Collider2dRenderer:
+
 New version supports visualizing through Collider2dRenderer which renders colliders shape to standard mesh. This version lacks most features of the gizmos-based visualizers but it works in standalone builds, can be batched in one draw call to minimize graphics overhead impact. You can automate routine operations for you visualizers with the new manager which can be found at "Tools/Physics2dVisualizer/Open Manager" menu.
  
 # Gizmos visualizers:
