@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace artics.Math
+namespace Artics.Math
 {
     /// <summary>
     /// Simple solution to cache Math.Sin and Math.Cos values with listed proximity. </br>

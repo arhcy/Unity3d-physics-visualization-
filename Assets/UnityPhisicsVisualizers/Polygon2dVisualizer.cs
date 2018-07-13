@@ -1,8 +1,9 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 using UnityEngine;
 using System;
+using Artics.Physics.UnityPhisicsVisualizers.Base;
 
-namespace artics.UnityPhisicsVisualizers
+namespace Artics.Physics.UnityPhisicsVisualizers
 {
     /// <summary>
     /// Draws gizmos of <seealso cref="PolygonCollider2D"/> which attached for current GameObject.
@@ -28,14 +29,18 @@ namespace artics.UnityPhisicsVisualizers
 
         protected override void MultiplyMatrix()
         {
+            Vector2[] points = Collider.points;
+
             if (MultipliedPoints.Length != PointsLenght)
             {
-                PointsLenght = Collider.points.Length;
+                PointsLenght = points.Length;
                 MultipliedPoints = new Vector2[PointsLenght];
             }
 
+            Vector2 offset = Collider.offset;
+
             for (int i = 0; i < PointsLenght; i++)
-                MultipliedPoints[i] = transform.localToWorldMatrix.MultiplyPoint(Collider.points[i] + Collider.offset);
+                MultipliedPoints[i] = transform.localToWorldMatrix.MultiplyPoint(points[i] + offset);
         }
 
         protected override void Draw()

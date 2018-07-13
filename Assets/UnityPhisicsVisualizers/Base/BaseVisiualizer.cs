@@ -1,7 +1,7 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 using UnityEngine;
 
-namespace artics.UnityPhisicsVisualizers
+namespace Artics.Physics.UnityPhisicsVisualizers.Base
 {
     /// <summary>
     /// Base visualizator class

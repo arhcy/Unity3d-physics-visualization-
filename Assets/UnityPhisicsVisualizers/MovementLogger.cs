@@ -1,8 +1,9 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 using UnityEngine;
 using System.Collections.Generic;
+using Artics.Physics.UnityPhisicsVisualizers.Base;
 
-namespace artics.UnityPhisicsVisualizers
+namespace Artics.Physics.UnityPhisicsVisualizers
 {
     /// <summary>
     /// Stores global position of object, and collider visualiztion data

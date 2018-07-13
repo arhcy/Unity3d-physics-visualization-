@@ -1,10 +1,13 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 
 using UnityEngine;
-using artics.Math;
+using Artics.Math;
+using System;
+using System.Collections.Generic;
 
-namespace artics.UnityPhisicsVisualizers
+namespace Artics.Physics.UnityPhisicsVisualizers
 {
+    public delegate void GetCoordinatesMethod(Collider2D collider, ref Vector2[] points);
     /// <summary>
     /// set of static funtions solution to get raw poins of Unity physics 2d colliders. 
     /// </summary>
@@ -15,10 +18,57 @@ namespace artics.UnityPhisicsVisualizers
         /// </summary>
         public static uint CircleProximity = 20;
 
+        protected static Dictionary<Type, GetCoordinatesMethod> TypeMethodDict;
+
+        public static Dictionary<Type, GetCoordinatesMethod> GetTypeMethodDictionary()
+        {
+            if (TypeMethodDict == null)
+                TypeMethodDict = new Dictionary<Type, GetCoordinatesMethod>()
+                    {
+                        { typeof(BoxCollider2D), GetBoxCoordinates },
+                        { typeof(PolygonCollider2D), GetPolygonCoordinates},
+                        { typeof(EdgeCollider2D), GetEdgeCoordinates},
+                        { typeof(CircleCollider2D), GetCircleCoordinates},
+                        { typeof(CapsuleCollider2D), GetCapsuleCoordinates}
+                    };
+
+            return TypeMethodDict;
+        }
+
         /// <summary>
         /// bakes sin and cos values for performance
         /// </summary>
         public static TrigonometryBaker TrigonometryManager = new TrigonometryBaker();
+
+        #region UncastedMethods
+
+        public static void GetBoxCoordinates(Collider2D collider, ref Vector2[] points)
+        {
+            GetBoxCoordinates(collider as BoxCollider2D, ref points);
+        }
+
+        public static void GetPolygonCoordinates(Collider2D collider, ref Vector2[] points)
+        {
+            GetPolygonCoordinates(collider as PolygonCollider2D, ref points);
+        }
+
+        public static void GetEdgeCoordinates(Collider2D collider, ref Vector2[] points)
+        {
+            GetEdgeCoordinates(collider as EdgeCollider2D, ref points);
+        }
+
+        public static void GetCircleCoordinates(Collider2D collider, ref Vector2[] points)
+        {
+            GetCircleCoordinates(collider as CircleCollider2D, ref points);
+        }
+
+        public static void GetCapsuleCoordinates(Collider2D collider, ref Vector2[] points)
+        {
+            GetCapsuleCoordinates(collider as CapsuleCollider2D, ref points);
+        }
+
+        #endregion
+
 
 
         #region SimpleShapes
@@ -60,13 +110,13 @@ namespace artics.UnityPhisicsVisualizers
             CalculatePolygonCoodinates(collider.points, collider.offset, ref points);
         }
 
-        protected static void PointsArraySizevalidation(ref Vector2[] points, int size)
+        public static void PointsArraySizevalidation(ref Vector2[] points, int size)
         {
             if (points == null || points.Length != size)
                 points = new Vector2[size];
         }
-        
-        protected static void CalculatePolygonCoodinates(Vector2[] colliderPoints, Vector2 offset,  ref Vector2[] points)
+
+        protected static void CalculatePolygonCoodinates(Vector2[] colliderPoints, Vector2 offset, ref Vector2[] points)
         {
             PointsArraySizevalidation(ref points, colliderPoints.Length);
 
@@ -195,7 +245,7 @@ namespace artics.UnityPhisicsVisualizers
 
             points[0].Set(StartPosition.x + radius, EndPosition.y);
             points[1].Set(StartPosition.x + radius, StartPosition.y);
-            
+
             FillCirclePoint(points, StartPosition, radius, values, 2, 0, half);
 
             points[half + 2].Set(StartPosition.x - radius, StartPosition.y);

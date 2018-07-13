@@ -1,7 +1,8 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
+using Artics.Physics.UnityPhisicsVisualizers.Base;
 using UnityEngine;
 
-namespace artics.UnityPhisicsVisualizers
+namespace Artics.Physics.UnityPhisicsVisualizers
 {
     /// <summary>
     /// Draws gizmos of <seealso cref="CapsuleCollider2D"/> which attached for current GameObject.
@@ -10,8 +11,10 @@ namespace artics.UnityPhisicsVisualizers
     /// </summary>
     [ExecuteInEditMode]
     [RequireComponent(typeof(CapsuleCollider2D))]
-    public class Capsule2dVisualizer : BaseVisualizer
+    public class Capsule2dVisualizer : ClosedShapeVisualizer
     {
+        public uint CustomProximity;
+
         protected CapsuleCollider2D Collider;
         protected Vector2 StartPosition;
         protected Vector2 EndPosition;
@@ -31,17 +34,25 @@ namespace artics.UnityPhisicsVisualizers
         /// </summary>
         public override void UpdateBounds()
         {
-            if (Collider.direction == CapsuleDirection2D.Vertical)
+            /*if (Collider.direction == CapsuleDirection2D.Vertical)
                 UpdateBoundsVertical(Collider.size.y, Collider.size.x);
             else
                 UpdateBoundsHorizontal(Collider.size.x, Collider.size.y);
+
+            StartPosition += Collider.offset;
+            EndPosition += Collider.offset;*/
+
+            Collider2dPointsGetter.GetCapsuleCoordinates(Collider, ref Points, CustomProximity);
+
+            if (Points.Length != MultipliedPoints.Length)
+                MultipliedPoints = new Vector2[Points.Length];
         }
 
-        protected override void MultiplyMatrix()
+        /*protected override void MultiplyMatrix()
         {
             MultipliedStartPosition = transform.localToWorldMatrix.MultiplyPoint(StartPosition);
             MultipliedEndPosition = transform.localToWorldMatrix.MultiplyPoint(EndPosition);
-        }
+        }*/
 
         protected void UpdateBoundsVertical(float height, float radius)
         {
@@ -50,9 +61,6 @@ namespace artics.UnityPhisicsVisualizers
 
             StartPosition.y = height * 0.5f;
             EndPosition.y = StartPosition.y * -1;
-
-            StartPosition += Collider.offset;
-            EndPosition += Collider.offset;
 
             Radius = Mathf.Abs(radius * 0.5f * transform.localScale.x);
         }
@@ -65,19 +73,16 @@ namespace artics.UnityPhisicsVisualizers
             StartPosition.x = height * 0.5f;
             EndPosition.x = StartPosition.x * -1;
 
-            StartPosition += Collider.offset;
-            EndPosition += Collider.offset;
-
             Radius = Mathf.Abs(radius * 0.5f * transform.localScale.y);
         }
 
-        /// <summary>
+        /*/// <summary>
         /// You can override drawing method for yout needs
         /// </summary>
         protected override void Draw()
         {
             DebugExtension.DrawCapsule(MultipliedStartPosition, MultipliedEndPosition, Color, Radius);
-        }
+        }*/
 
         public override IDrawData CreateDrawData()
         {

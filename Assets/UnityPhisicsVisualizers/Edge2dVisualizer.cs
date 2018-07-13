@@ -1,7 +1,8 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 using UnityEngine;
+using Artics.Physics.UnityPhisicsVisualizers.Base;
 
-namespace artics.UnityPhisicsVisualizers
+namespace Artics.Physics.   UnityPhisicsVisualizers
 {
     /// <summary>
     /// Draws gizmos of <seealso cref="EdgeCollider2D"/> which attached for current GameObject.
