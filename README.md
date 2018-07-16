@@ -6,13 +6,20 @@ Tool to help you visualize 2d physics colliders and track their transform at run
  <img align="center" src="/Screenshots/MovementLogger.gif">
  </p>
 
-# New Collider2dRenderer added:
+# [version_2] New Collider2dRenderer added:
 
 New version supports visualizing through Collider2dRenderer which renders colliders shape to standard mesh. This type of visualization lacks most features of the gizmos-based visualizers but it works in standalone builds, can be batched in one draw call to minimize graphics overhead impact. 
 
  <p align="center">
- <img align="center" src="/Screenshots/Scr2.jpg">
+ <img align="center" width="60%" src="/Screenshots/Scr2.png">
  </p>
+ 
+  * `AlwaysUpdate` - updates mesh every frame
+ * `MeshColor` - vertex color of the mesh
+ * `UseCircleProximity` - use a custom number of segments created for circular areas of CircleCollider2D and CapsuleColldier2D. If not checked default value will be used (20). You can set the default value by accessing static variable Collider2dPointsGetter::CircleProximity.
+ * `CustomCircleProximity` - use a custom number of segments
+ * `Thickness` - the thickness of shape in Unity points. If a camera is Orthogonal and `UsePixelSize` is true it will be in pixel size
+ * `UsePixelSize` - to set mesh thickness in pixels
  
 You can automate routine operations for you visualizers with the new manager which can be found at "Tools/Physics2dVisualizer/Open Manager" menu.
 
@@ -55,7 +62,7 @@ You can automate routine operations for you visualizers with the new manager whi
  </p>
  
     
-   ### Tools in menu:
+   ### Tools:
  <p align="center">
  <img align="center" width="60%" src="/Screenshots/Screenshot_50.png">
  </p>
