@@ -30,15 +30,15 @@ You can automate routine operations for you visualizers with the new manager whi
 # Gizmos visualizers:
  
 ### Currently supports:
+ * `AnchoredJoint2DVisualizer` - for `DistanceJoint2D`, `FixedJoint2D`, `FrictionJoint2D`, `HingeJoint2D`, `SliderJoint2D`, `SpringJoint2D`, `WheelJoint2D`
  * `Box2dVisualizer` for 	`BoxCollider2D` *(EdgeRadius not supported)*
  * `Capsule2dVisualizer` for `CapsuleCollider2D`
  * `Circle2dVisualizer` for `CircleCollider2D`
  * `Edge2dVisualizer` for `EdgeCollider2D`
  * `Polygon2dVisualizer` for `PolygonCollider2D` *(Multiple polygon Paths not supported)* 
- * `MovementLogger` for tracking object's position and transform *(Edgae collider not supported)*
+ * `MovementLogger` for tracking object's position and transform
 
 ### Warning:
- * You also need to install Debug Drawing Extension https://assetstore.unity.com/packages/tools/debug-drawing-extension-11396 
  * Don't forget to enable Gizmos visibility
  
  ### You can manipulate with 3 params:
@@ -54,6 +54,7 @@ You can automate routine operations for you visualizers with the new manager whi
    * `DrawPoints` enable visualizing of position points
    * `DrawLines` enable visualizing of path
    * `RecordObjectState` Records collider visualizer state, requires class inherited from BaseVisualizer
+   * `RecordUnmoved` record state even when the object wasn't moved
    * `DrawState` Draws collider visualizer state   
    
    ### Example:
