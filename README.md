@@ -1,6 +1,6 @@
 # Unity3d Physics2d Visualizer *[work in progress]*
 
-Tool to help you visualize 2d physics colliders and track their transform at runtime. Just add the proper component to GameObject with a Collider2d. 
+Tool to help you visualize 2d physics colliders and joints. You can track their transform at runtime. Just add the proper component to GameObject with a Collider2D or Joint2D. 
 
  <p align="center">
  <img align="center" src="/Screenshots/MovementLogger.gif">
