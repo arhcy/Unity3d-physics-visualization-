@@ -2,7 +2,7 @@
 using UnityEngine;
 using Artics.Physics.UnityPhisicsVisualizers.Base;
 
-namespace Artics.Physics.   UnityPhisicsVisualizers
+namespace Artics.Physics.UnityPhisicsVisualizers
 {
     /// <summary>
     /// Draws gizmos of <seealso cref="EdgeCollider2D"/> which attached for current GameObject.
@@ -12,65 +12,92 @@ namespace Artics.Physics.   UnityPhisicsVisualizers
 
     [RequireComponent(typeof(EdgeCollider2D))]
 
-    public class Edge2dVisualizer : BaseVisualizer
+    public class Edge2dVisualizer : Polygon2dVisualizer
     {
-        protected EdgeCollider2D Collider;
-        protected Vector2[] MultipliedPoints;
-        protected int PointsLenght;
-
         public override void Init()
         {
-            Collider = GetComponent<EdgeCollider2D>();
-            PointsLenght = Collider.points.Length;
-            MultipliedPoints = new Vector2[PointsLenght];
-
             base.Init();
-        }
 
-        protected override void MultiplyMatrix()
-        {
-            if (MultipliedPoints.Length != PointsLenght)
-            {
-                PointsLenght = Collider.points.Length;
-                MultipliedPoints = new Vector2[PointsLenght];
-            }
-
-            for (int i = 0; i < PointsLenght; i++)
-                MultipliedPoints[i] = transform.localToWorldMatrix.MultiplyPoint(Collider.points[i] + Collider.offset);
+            IsClosed = false;
         }
 
         protected override void Draw()
         {
-            Gizmos.color = Color;
+            float edgeRadius = GetEdgeRadius();
 
-            if (Collider.edgeRadius == 0)
+            if (edgeRadius == 0)
             {
-                for (int i = 0; i < PointsLenght - 1; i++)
-                    Gizmos.DrawLine(MultipliedPoints[i], MultipliedPoints[i + 1]);
+                base.Draw();
             }
             else
             {
-                float radius = Collider.edgeRadius;
-
-                for (int i = 0; i < PointsLenght - 1; i++)
-                {
-                    Vector2 HelperVector = MultipliedPoints[i + 1] - MultipliedPoints[i];
-                    HelperVector.Normalize();
-                    HelperVector *= radius;
-
-                    Gizmos.DrawLine(new Vector3(MultipliedPoints[i].x - HelperVector.y, MultipliedPoints[i].y + HelperVector.x), new Vector3(MultipliedPoints[i + 1].x - HelperVector.y, MultipliedPoints[i + 1].y + HelperVector.x));
-                    Gizmos.DrawLine(new Vector3(MultipliedPoints[i].x + HelperVector.y, MultipliedPoints[i].y - HelperVector.x), new Vector3(MultipliedPoints[i + 1].x + HelperVector.y, MultipliedPoints[i + 1].y - HelperVector.x));
-
-                    DebugExtension.DrawCircle(MultipliedPoints[i], Vector3.forward, Color, radius);
-                }
-
-                DebugExtension.DrawCircle(MultipliedPoints[PointsLenght - 1], Vector3.forward, Color, Collider.edgeRadius);
+                DrawCustomShape(MultipliedPoints, edgeRadius, Color);
             }
+        }
+
+        public static void DrawCustomShape(Vector2[] multipliedPoints, float edgeRadius, Color color)
+        {
+            Gizmos.color = color;
+            Vector2[] Points = null;
+
+            for (int i = 0; i < multipliedPoints.Length - 1; i++)
+            {
+                Vector2 HelperVector = multipliedPoints[i + 1] - multipliedPoints[i];
+                HelperVector.Normalize();
+                HelperVector *= edgeRadius;
+
+                Gizmos.DrawLine(new Vector3(multipliedPoints[i].x - HelperVector.y, multipliedPoints[i].y + HelperVector.x), new Vector3(multipliedPoints[i + 1].x - HelperVector.y, multipliedPoints[i + 1].y + HelperVector.x));
+                Gizmos.DrawLine(new Vector3(multipliedPoints[i].x + HelperVector.y, multipliedPoints[i].y - HelperVector.x), new Vector3(multipliedPoints[i + 1].x + HelperVector.y, multipliedPoints[i + 1].y - HelperVector.x));
+
+                DrawCircle((Vector2)multipliedPoints[i], edgeRadius, ref Points, color);
+            }
+
+            DrawCircle((Vector2)multipliedPoints[multipliedPoints.Length - 1], edgeRadius, ref Points, color);
+        }
+
+        protected static void DrawCircle(Vector2 center, float radius, ref Vector2[] points, Color color)
+        {
+            Collider2dPointsGetter.GetCircleCoordinates(center, radius, ref points);
+            ShapeVisualizer.DrawPoints(points, false, color);
+            Gizmos.DrawLine(points[0], points[points.Length - 1]);
+        }
+
+        protected float GetEdgeRadius()
+        {
+            return (Collider as EdgeCollider2D).edgeRadius;
         }
 
         public override IDrawData CreateDrawData()
         {
-            throw new System.NotFiniteNumberException();
+            var baseData = (Shape2DDrawData)base.CreateDrawData();
+            Edge2DDrawData data = new Edge2DDrawData();
+            data.BaseData = baseData;
+            data.EdgeRadius = GetEdgeRadius();
+
+            return data;
+        }
+    }
+
+    /// <summary>
+    /// struct to store calculated data and draw it outside of class
+    /// </summary>
+    [System.Serializable]
+    public struct Edge2DDrawData : IDrawData
+    {
+        public Shape2DDrawData BaseData;
+        public float EdgeRadius;
+
+        public void Draw()
+        {
+            Draw(BaseData.Color);
+        }
+
+        public void Draw(Color color)
+        {
+            if (EdgeRadius == 0)
+                BaseData.Draw();
+            else
+                Edge2dVisualizer.DrawCustomShape(BaseData.MultipliedPoints, EdgeRadius, color);
         }
     }
 }

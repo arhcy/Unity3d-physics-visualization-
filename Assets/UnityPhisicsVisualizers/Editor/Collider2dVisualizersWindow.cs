@@ -79,7 +79,7 @@ public class Collider2dVisualizersWindow : EditorWindow
         #region Rendereres
         //GUILayout.Space(10);
         EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-        GUILayout.Label("Gizmos visualizers:", EditorStyles.boldLabel);
+        GUILayout.Label("Mesh visualizers:", EditorStyles.boldLabel);
 
         //select
         GUILayout.BeginHorizontal();

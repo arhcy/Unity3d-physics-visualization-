@@ -174,7 +174,6 @@ namespace Artics.Physics.UnityPhisicsVisualizers
                 Handles.Label(transform.localToWorldMatrix.MultiplyPoint(vertexes[i]), "V" + i.ToString());
         }
 #endif
-
     }
 
 

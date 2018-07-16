@@ -8,8 +8,9 @@ using System.Collections.Generic;
 namespace Artics.Physics.UnityPhisicsVisualizers
 {
     public delegate void GetCoordinatesMethod(Collider2D collider, ref Vector2[] points);
+
     /// <summary>
-    /// set of static funtions solution to get raw poins of Unity physics 2d colliders. 
+    /// Set of static funtions to get raw poins of physics colliders2d. 
     /// </summary>
     public class Collider2dPointsGetter
     {

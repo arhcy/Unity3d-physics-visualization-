@@ -1,9 +1,10 @@
-﻿using System;
+﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Artics.Physics.UnityPhisicsVisualizers
+namespace Artics.Physics.UnityPhisicsVisualizers.Base
 {
     public interface IDrawData
     {

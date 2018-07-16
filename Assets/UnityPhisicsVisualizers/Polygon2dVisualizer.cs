@@ -1,6 +1,5 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 using UnityEngine;
-using System;
 using Artics.Physics.UnityPhisicsVisualizers.Base;
 
 namespace Artics.Physics.UnityPhisicsVisualizers
@@ -12,82 +11,42 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
     [RequireComponent(typeof(PolygonCollider2D))]
 
-    public class Polygon2dVisualizer : BaseVisualizer
+    public class Polygon2dVisualizer : ShapeVisualizer
     {
-        protected PolygonCollider2D Collider;
-        protected Vector2[] MultipliedPoints;
-        protected int PointsLenght;
+        protected Collider2D Collider;
 
         public override void Init()
         {
-            Collider = GetComponent<PolygonCollider2D>();
-            PointsLenght = Collider.points.Length;
+            Collider = GetComponent<Collider2D>();
+            PointsLenght = GetColldierPoints().Length;
             MultipliedPoints = new Vector2[PointsLenght];
+            IsClosed = true;
 
             base.Init();
         }
 
-        protected override void MultiplyMatrix()
+        public override void UpdateBounds()
         {
-            Vector2[] points = Collider.points;
+            Points = GetColldierPoints();
 
-            if (MultipliedPoints.Length != PointsLenght)
+            if (PointsLenght != Points.Length)
             {
-                PointsLenght = points.Length;
+                PointsLenght = Points.Length;
                 MultipliedPoints = new Vector2[PointsLenght];
             }
 
-            Vector2 offset = Collider.offset;
-
-            for (int i = 0; i < PointsLenght; i++)
-                MultipliedPoints[i] = transform.localToWorldMatrix.MultiplyPoint(points[i] + offset);
+            Offset = Collider.offset;
         }
 
-        protected override void Draw()
+        protected Vector2[] GetColldierPoints()
         {
-            Gizmos.color = Color;
+            if (Collider is PolygonCollider2D)
+                return (Collider as PolygonCollider2D).points;
+            else
+                if (Collider is EdgeCollider2D)
+                return (Collider as EdgeCollider2D).points;
 
-            for (int i = 0; i < PointsLenght - 1; i++)
-                Gizmos.DrawLine(MultipliedPoints[i], MultipliedPoints[i + 1]);
-
-            Gizmos.DrawLine(MultipliedPoints[0], MultipliedPoints[PointsLenght - 1]);
-        }
-
-        public override IDrawData CreateDrawData()
-        {
-            Polygon2DDrawData data = new Polygon2DDrawData();
-            data.Color = Color;
-            data.PointsLenght = PointsLenght;
-            data.MultipliedPoints = new Vector2[PointsLenght];
-            Array.Copy(MultipliedPoints, data.MultipliedPoints, PointsLenght);
-
-            return data;
-        }
-    }
-
-    /// <summary>
-    /// struct to store calculated data and draw it outside of class
-    /// </summary>
-    [System.Serializable]
-    public struct Polygon2DDrawData : IDrawData
-    {
-        public Vector2[] MultipliedPoints;
-        public int PointsLenght;
-        public Color Color;
-
-        public void Draw()
-        {
-            Draw(Color);
-        }
-
-        public void Draw(Color color)
-        {
-            Gizmos.color = color;
-
-            for (int i = 0; i < PointsLenght - 1; i++)
-                Gizmos.DrawLine(MultipliedPoints[i], MultipliedPoints[i + 1]);
-
-            Gizmos.DrawLine(MultipliedPoints[0], MultipliedPoints[PointsLenght - 1]);
+            return null;
         }
     }
 }

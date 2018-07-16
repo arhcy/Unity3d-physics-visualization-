@@ -1,4 +1,4 @@
-﻿using System;
+﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;

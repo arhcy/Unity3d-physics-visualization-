@@ -11,7 +11,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
     /// </summary>
     [ExecuteInEditMode]
     [RequireComponent(typeof(CapsuleCollider2D))]
-    public class Capsule2dVisualizer : ClosedShapeVisualizer
+    public class Capsule2dVisualizer : ShapeVisualizer
     {
         public uint CustomProximity;
 
@@ -26,6 +26,9 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         public override void Init()
         {
             Collider = GetComponent<CapsuleCollider2D>();
+            Points = new Vector2[0];
+            MultipliedPoints = new Vector2[0];
+            IsClosed = true;
             base.Init();
         }
 
@@ -34,25 +37,23 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         /// </summary>
         public override void UpdateBounds()
         {
-            /*if (Collider.direction == CapsuleDirection2D.Vertical)
-                UpdateBoundsVertical(Collider.size.y, Collider.size.x);
-            else
-                UpdateBoundsHorizontal(Collider.size.x, Collider.size.y);
-
-            StartPosition += Collider.offset;
-            EndPosition += Collider.offset;*/
-
             Collider2dPointsGetter.GetCapsuleCoordinates(Collider, ref Points, CustomProximity);
 
             if (Points.Length != MultipliedPoints.Length)
                 MultipliedPoints = new Vector2[Points.Length];
         }
 
-        /*protected override void MultiplyMatrix()
+        /* old way of calculations
+        protected void CalculateCapsuleBasePoints()
         {
-            MultipliedStartPosition = transform.localToWorldMatrix.MultiplyPoint(StartPosition);
-            MultipliedEndPosition = transform.localToWorldMatrix.MultiplyPoint(EndPosition);
-        }*/
+            if (Collider.direction == CapsuleDirection2D.Vertical)
+                UpdateBoundsVertical(Collider.size.y, Collider.size.x);
+            else
+                UpdateBoundsHorizontal(Collider.size.x, Collider.size.y);
+
+            StartPosition += Collider.offset;
+            EndPosition += Collider.offset;
+        }
 
         protected void UpdateBoundsVertical(float height, float radius)
         {
@@ -75,46 +76,6 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
             Radius = Mathf.Abs(radius * 0.5f * transform.localScale.y);
         }
-
-        /*/// <summary>
-        /// You can override drawing method for yout needs
-        /// </summary>
-        protected override void Draw()
-        {
-            DebugExtension.DrawCapsule(MultipliedStartPosition, MultipliedEndPosition, Color, Radius);
-        }*/
-
-        public override IDrawData CreateDrawData()
-        {
-            Capsule2DDrawData data = new Capsule2DDrawData();
-            data.Color = Color;
-            data.MultipliedEndPosition = MultipliedEndPosition;
-            data.MultipliedStartPosition = MultipliedStartPosition;
-            data.Radius = Radius;
-
-            return data;
-        }
-    }
-
-    /// <summary>
-    /// struct to store calculated data and draw it outside of class
-    /// </summary>
-    [System.Serializable]
-    public struct Capsule2DDrawData : IDrawData
-    {
-        public Vector2 MultipliedStartPosition;
-        public Vector2 MultipliedEndPosition;
-        public float Radius;
-        public Color Color;
-
-        public void Draw()
-        {
-            DebugExtension.DrawCapsule(MultipliedStartPosition, MultipliedEndPosition, Color, Radius);
-        }
-
-        public void Draw(Color color)
-        {
-            DebugExtension.DrawCapsule(MultipliedStartPosition, MultipliedEndPosition, color, Radius);
-        }
+        */
     }
 }

@@ -41,6 +41,11 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         public bool Record = true;
 
         /// <summary>
+        /// record state even when the object wasn't moved
+        /// </summary>
+        public bool RecordUnmoved = true;
+
+        /// <summary>
         /// enable visualizing of position points
         /// </summary>
         public bool DrawPoints = true;
@@ -97,7 +102,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
                 TimeLeft = 0;
             }
 
-            if (Buffer.Peek().Position != transform.position)
+            if (RecordUnmoved || Buffer.Peek().Position != transform.position)
             {
                 Buffer.Enqueue(GetData());
             }
@@ -133,7 +138,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             {
                 if (DrawPoints)
                 {
-                    DebugExtension.DrawPoint(data.Position, Color, 0.2f);
+                    DrawPoint(data.Position, 0.2f, Color);
                 }
 
                 if (DrawLines)
@@ -156,6 +161,15 @@ namespace Artics.Physics.UnityPhisicsVisualizers
                 count++;
             }
         }
+
+        protected void DrawPoint(Vector3 position, float size, Color color)
+        {
+            Gizmos.color = color;
+
+            Gizmos.DrawLine(new Vector3(position.x - size, position.y, position.z), new Vector3(position.x + size, position.y, position.z));
+            Gizmos.DrawLine(new Vector3(position.x, position.y - size, position.z), new Vector3(position.x, position.y + size, position.z));
+        }
+
 
         [ContextMenu("Clear buffer")]
         public void ClearBuffer()
