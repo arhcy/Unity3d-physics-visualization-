@@ -6,9 +6,19 @@ Tool to help you visualize 2d physics colliders and track their transform at run
  <img align="center" src="/Screenshots/MovementLogger.gif">
  </p>
 
-# New Collider2dRenderer:
+# New Collider2dRenderer added:
 
-New version supports visualizing through Collider2dRenderer which renders colliders shape to standard mesh. This version lacks most features of the gizmos-based visualizers but it works in standalone builds, can be batched in one draw call to minimize graphics overhead impact. You can automate routine operations for you visualizers with the new manager which can be found at "Tools/Physics2dVisualizer/Open Manager" menu.
+New version supports visualizing through Collider2dRenderer which renders colliders shape to standard mesh. This type of visualization lacks most features of the gizmos-based visualizers but it works in standalone builds, can be batched in one draw call to minimize graphics overhead impact. 
+
+ <p align="center">
+ <img align="center" src="/Screenshots/Scr2.jpg">
+ </p>
+ 
+You can automate routine operations for you visualizers with the new manager which can be found at "Tools/Physics2dVisualizer/Open Manager" menu.
+
+ <p align="center">
+ <img align="center" src="/Screenshots/VisualizerWindow.gif">
+ </p>
  
 # Gizmos visualizers:
  
@@ -49,4 +59,11 @@ New version supports visualizing through Collider2dRenderer which renders collid
  <p align="center">
  <img align="center" width="60%" src="/Screenshots/Screenshot_50.png">
  </p>
-   
+ 
+ This tools can help you to automate some routine operations without opening manager window.
+ 
+   * `Remove all visualizers` - removes all gizmos visualizers found in the scene
+ *  `Add visualizers for all Colliders2d` - automatically adds relevant gizmos visualizers for all Collider2D found in the scene
+ * `Remove all Collider2dRenderer` - removes all Collider2DRenderer found in the scene
+ * `Add the Collider2dRenderer for all Colliders2d` - automatically adds Collider2Renderer visualizer for all Collider2D found in the scene
+* `Add default sprites material for all Colliders2d` - sets shared material based on "Sprites/Default" shader for all Collider2Renderer found in the scene
