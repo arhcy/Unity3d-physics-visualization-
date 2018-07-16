@@ -34,5 +34,3 @@ sysinfo.txt
 *.unitypackage
 ProjectSettings/
 UnityPackageManager/manifest.json
-Assets/DebugDrawingExtension.meta
-Assets/DebugDrawingExtension/
