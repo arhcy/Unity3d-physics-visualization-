@@ -2,6 +2,10 @@
 
 Tool to help you visualize 2d physics colliders and joints. You can track their transform at runtime. Just add the proper component to GameObject with a Collider2D or Joint2D. 
 
+Supported Unity 5.6 and higher.
+
+ __Warning: Objects with scaled parent can render incorrectly__
+
  <p align="center">
  <img align="center" src="/Screenshots/MovementLogger.gif">
  </p>
