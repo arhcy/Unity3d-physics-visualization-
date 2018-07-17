@@ -25,12 +25,20 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
         public override void UpdateBounds()
         {
+            base.UpdateBounds();
+
             Vector2 size = Collider.size * 0.5f;
+
+            if (RigidBodyAttached)
+                size.Scale(transform.lossyScale);
 
             Points[0].Set(-size.x, -size.y);
             Points[1].Set(-size.x, +size.y);
             Points[2].Set(+size.x, +size.y);
             Points[3].Set(+size.x, -size.y);
+
+            Offset = Collider.offset;
+            RigidBodyAttached = Collider.attachedRigidbody != null;
         }
 
         protected override void MultiplyMatrix()

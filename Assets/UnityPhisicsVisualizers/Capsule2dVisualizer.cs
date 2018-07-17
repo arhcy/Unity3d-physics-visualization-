@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 using Artics.Physics.UnityPhisicsVisualizers.Base;
 using UnityEngine;
+using Artics.Math;
 
 namespace Artics.Physics.UnityPhisicsVisualizers
 {
@@ -37,7 +38,9 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         /// </summary>
         public override void UpdateBounds()
         {
-            Collider2dPointsGetter.GetCapsuleCoordinates(Collider, ref Points, CustomProximity);
+            base.UpdateBounds();
+
+            Collider2dPointsGetter.GetCapsuleCoordinates(Collider, ref Points, CustomProximity, true);
 
             if (Points.Length != MultipliedPoints.Length)
                 MultipliedPoints = new Vector2[Points.Length];

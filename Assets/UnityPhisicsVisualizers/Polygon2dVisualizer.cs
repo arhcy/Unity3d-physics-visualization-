@@ -9,7 +9,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
     /// Multiple polygon Paths not supported
     /// </summary>
 
-    [RequireComponent(typeof(PolygonCollider2D))]
+    //[RequireComponent(typeof(PolygonCollider2D))]
 
     public class Polygon2dVisualizer : ShapeVisualizer
     {
@@ -27,6 +27,8 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
         public override void UpdateBounds()
         {
+            base.UpdateBounds();
+
             Points = GetColldierPoints();
 
             if (PointsLenght != Points.Length)

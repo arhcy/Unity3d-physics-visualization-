@@ -1,4 +1,7 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
+#if NET_4_6
+using System.Runtime.CompilerServices;
+#endif
 
 using UnityEngine;
 using Artics.Math;
@@ -183,7 +186,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         /// <param name="collider"></param>
         /// <param name="points"></param>
         /// <param name="CustomProximity">if set to 0 it uses <see cref="CircleProximity"/>. Otherwise it uses listed value to calculate circular coordinates</param>
-        public static void GetCapsuleCoordinates(CapsuleCollider2D collider, ref Vector2[] points, uint CustomProximity = 0)
+        public static void GetCapsuleCoordinates(CapsuleCollider2D collider, ref Vector2[] points, uint CustomProximity = 0, bool UseLossyScale = false)
         {
             ProximityCheck(ref CustomProximity);
             PointsArraySizevalidation(ref points, (int)CustomProximity + 4);
@@ -193,52 +196,77 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             if (rest > 0)
                 CustomProximity += rest;
 
+            float radius = 0;
             Vector2 StartPosition = new Vector2();
             Vector2 EndPosition = new Vector2();
-            float radius = 0;
+            Vector2 size = collider.size * 0.5f;
+            Vector2 scale = collider.transform.lossyScale;
+
+            if (UseLossyScale)
+                size.Scale(scale);
+
+            size.x = Mathf.Abs(size.x);
+            size.y = Mathf.Abs(size.y);
 
             if (collider.direction == CapsuleDirection2D.Vertical)
             {
-                CalculateCapsuleBoundsVertical(collider, ref StartPosition, ref EndPosition, ref radius);
+                CalculateCapsuleBoundsVertical(ref StartPosition, ref EndPosition, ref radius, size);
+                AddCapsuleOffset(collider, ref StartPosition, ref EndPosition, scale, UseLossyScale);
                 GetCapsulePointsVertical(StartPosition, EndPosition, radius, CustomProximity, points);
             }
             else
             {
-                CalculateCapsuleBoundsHorizontal(collider, ref StartPosition, ref EndPosition, ref radius);
+                CalculateCapsuleBoundsHorizontal(ref StartPosition, ref EndPosition, ref radius, size);
+                AddCapsuleOffset(collider, ref StartPosition, ref EndPosition, scale, UseLossyScale);
                 GetCapsulePointsHorizontal(StartPosition, EndPosition, radius, CustomProximity, points);
             }
         }
 
-        protected static void CalculateCapsuleBoundsVertical(CapsuleCollider2D collider, ref Vector2 StartPosition, ref Vector2 EndPosition, ref float Radius)
+#if NET_4_6
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        protected static void CalculateCapsuleBoundsVertical(ref Vector2 StartPosition, ref Vector2 EndPosition, ref float Radius, Vector2 size)
         {
-            Vector2 size = collider.size;
-            Radius = Mathf.Abs(size.x * 0.5f * collider.transform.localScale.x);
+            Radius = size.x;
 
-            StartPosition.x = 0;
-            EndPosition.x = 0;
-
-            StartPosition.y = Mathf.Max(0, size.y * 0.5f - Radius);
-            EndPosition.y = Mathf.Min(0, StartPosition.y * -1);
-
-            StartPosition += collider.offset;
-            EndPosition += collider.offset;
+            if (size.y > size.x)
+            {
+                StartPosition.y = size.y - Radius;
+                EndPosition.y = StartPosition.y * -1;
+            }
         }
 
-        protected static void CalculateCapsuleBoundsHorizontal(CapsuleCollider2D collider, ref Vector2 StartPosition, ref Vector2 EndPosition, ref float Radius)
+#if NET_4_6
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        protected static void CalculateCapsuleBoundsHorizontal(ref Vector2 StartPosition, ref Vector2 EndPosition, ref float Radius, Vector2 size)
         {
-            Vector2 size = collider.size;
-            Radius = Mathf.Abs(size.y * 0.5f * collider.transform.localScale.x);
+            Radius = size.y;
 
-            StartPosition.y = 0;
-            EndPosition.y = 0;
-
-            StartPosition.x = Mathf.Max(0, size.x * 0.5f - Radius);
-            EndPosition.x = Mathf.Min(0, StartPosition.x * -1);
-
-            StartPosition += collider.offset;
-            EndPosition += collider.offset;
+            if (size.x > size.y)
+            {
+                StartPosition.x = size.x - Radius;
+                EndPosition.x = StartPosition.x * -1;
+            }
         }
 
+#if NET_4_6
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
+        protected static void AddCapsuleOffset(CapsuleCollider2D collider, ref Vector2 StartPosition, ref Vector2 EndPosition, Vector2 scale, bool useLossyScale)
+        {
+            if (useLossyScale)
+                scale.Scale(collider.offset);
+            else
+                scale = collider.offset;
+
+            StartPosition += scale;
+            EndPosition += scale;
+        }
+
+#if NET_4_6
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         protected static void GetCapsulePointsVertical(Vector2 StartPosition, Vector2 EndPosition, float radius, uint CustomProximity, Vector2[] points)
         {
             double[][] values = TrigonometryManager.GetProximityBake(CustomProximity);
@@ -255,6 +283,9 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             FillCirclePoint(points, EndPosition, radius, values, half + 4, half, half);
         }
 
+#if NET_4_6
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         protected static void GetCapsulePointsHorizontal(Vector2 StartPosition, Vector2 EndPosition, float radius, uint CustomProximity, Vector2[] points)
         {
             double[][] values = TrigonometryManager.GetProximityBake(CustomProximity);

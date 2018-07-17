@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 using System;
 using UnityEngine;
+using Artics.Math;
 
 namespace Artics.Physics.UnityPhisicsVisualizers.Base
 {
@@ -12,19 +13,29 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
         public bool IsClosed;
         protected Vector2[] Points;
         protected Vector2 Offset;
+        protected Collider2D BaseCollider;
+        public bool RigidBodyAttached;
 
         public override void Init()
         {
             //Points = new Vector2[0];
             //MultipliedPoints = new Vector2[0];
+            BaseCollider = GetComponent<Collider2D>();
 
             base.Init();
         }
 
+        public override void UpdateBounds()
+        {
+            RigidBodyAttached = BaseCollider.attachedRigidbody != null;
+        }
+
         protected override void MultiplyMatrix()
         {
+            Matrix4x4 matrix = GetMatrix();
+
             for (int i = 0; i < Points.Length; i++)
-                MultipliedPoints[i] = transform.localToWorldMatrix.MultiplyPoint(Points[i] + Offset);
+                MultipliedPoints[i] = matrix.MultiplyPoint(Points[i] + Offset);
         }
 
         protected override void Draw()
@@ -53,6 +64,14 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
 
             if (IsClosed && PointsLenght > 0)
                 Gizmos.DrawLine(MultipliedPoints[0], MultipliedPoints[PointsLenght]);
+        }
+
+        protected Matrix4x4 GetMatrix()
+        {
+            if (RigidBodyAttached)
+                return Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
+            else
+                return transform.localToWorldMatrix;
         }
     }
 

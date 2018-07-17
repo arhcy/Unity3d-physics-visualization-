@@ -38,8 +38,11 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
         protected override void MultiplyMatrix()
         {
-            MultipliedCenter = transform.localToWorldMatrix.MultiplyPoint(Center);
-            MultipliedRadius = Radius * Mathf.Max(Mathf.Abs(transform.localScale.x), Mathf.Abs(transform.localScale.y));
+            Matrix4x4 matrix = GetMatrix();
+            Vector3 lossyScale = transform.lossyScale;
+
+            MultipliedCenter = matrix.MultiplyPoint(Center);
+            MultipliedRadius = Radius * Mathf.Max(Mathf.Abs(lossyScale.x), Mathf.Abs(lossyScale.y));
 
             Collider2dPointsGetter.GetCircleCoordinates(MultipliedCenter, MultipliedRadius, ref MultipliedPoints, CustomProximity);
         }

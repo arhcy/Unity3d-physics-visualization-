@@ -1,6 +1,7 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 
 using Artics.Physics.UnityPhisicsVisualizers.Base;
+using Artics.Math;
 using UnityEngine;
 
 /// <summary>
@@ -28,13 +29,13 @@ public class AnchoredJoint2DVisualizer : ShapeVisualizer
             var tmpTransform = transform;
             MultipliedPoints[1] = MultipliedPoints[0] = tmpTransform.position;
 
-            var matrix = Matrix4x4.TRS(MultipliedPoints[0], tmpTransform.rotation, tmpTransform.lossyScale);
+            var matrix = tmpTransform.GetGlobalTransformMatrix(MultipliedPoints[0]);
+            tmpTransform = Joint.connectedBody.transform;
 
             MultipliedPoints[1] += (Vector2)matrix.MultiplyVector(Joint.anchor);
-            tmpTransform = Joint.connectedBody.transform;
             MultipliedPoints[3] = MultipliedPoints[2] = tmpTransform.position;
 
-            matrix = Matrix4x4.TRS(MultipliedPoints[2], tmpTransform.rotation, tmpTransform.lossyScale);
+            matrix = tmpTransform.GetGlobalTransformMatrix(MultipliedPoints[2]);
 
             MultipliedPoints[2] += (Vector2)matrix.MultiplyVector(Joint.connectedAnchor);
         }
@@ -43,10 +44,10 @@ public class AnchoredJoint2DVisualizer : ShapeVisualizer
             var tmpTransform = transform;
             MultipliedPoints[1] = MultipliedPoints[0] = tmpTransform.position;
 
-            var matrix = Matrix4x4.TRS(MultipliedPoints[0], tmpTransform.rotation, tmpTransform.lossyScale);
+            var matrix = tmpTransform.GetGlobalTransformMatrix(MultipliedPoints[0]);
 
             MultipliedPoints[1] += (Vector2)matrix.MultiplyVector(Joint.anchor);
-            MultipliedPoints[2] = Joint.connectedAnchor;            
+            MultipliedPoints[2] = Joint.connectedAnchor;
         }
     }
 }
