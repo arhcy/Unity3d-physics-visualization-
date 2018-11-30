@@ -27,7 +27,8 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
 
         public override void UpdateBounds()
         {
-            RigidBodyAttached = BaseCollider.attachedRigidbody != null;
+            if (BaseCollider != null)
+                RigidBodyAttached = BaseCollider.attachedRigidbody != null;
         }
 
         protected override void MultiplyMatrix()
@@ -41,6 +42,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
         protected override void Draw()
         {
             DrawPoints(MultipliedPoints, IsClosed, Color);
+            DrawEdgesIdHandles();
         }
 
         public override IDrawData CreateDrawData()

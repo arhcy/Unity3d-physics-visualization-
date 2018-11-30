@@ -39,6 +39,11 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             return TypeMethodDict;
         }
 
+        public static void GetColldierPoints(Collider2D collider, ref Vector2[] points)
+        {
+            GetTypeMethodDictionary()[collider.GetType()](collider, ref points);
+        }
+
         /// <summary>
         /// bakes sin and cos values for performance
         /// </summary>
@@ -203,7 +208,10 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             Vector2 scale = collider.transform.lossyScale;
 
             if (UseLossyScale)
-                size.Scale(scale);
+            {
+                size.x *= scale.x;
+                size.y *= scale.y;
+            }
 
             size.x = Mathf.Abs(size.x);
             size.y = Mathf.Abs(size.y);

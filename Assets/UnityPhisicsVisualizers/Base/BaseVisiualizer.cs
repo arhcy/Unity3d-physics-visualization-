@@ -13,7 +13,6 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
     /// If collider don't change his Offset, Size, and Direction - you can disable <see cref="DynamicBounds"/> to increase performance
     /// </summary>
     [ExecuteInEditMode]
-    [DisallowMultipleComponent]
     public class BaseVisualizer : MonoBehaviour
     {
         /// <summary>
@@ -35,7 +34,23 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
 
         private void Awake()
         {
+            if (CheckDuplicatedComponenets())
+                return;
+
             Init();
+        }
+
+        protected bool CheckDuplicatedComponenets()
+        {
+            var visualizer = GetComponent<BaseVisualizer>();
+
+            if (visualizer != this && visualizer != null && visualizer.GetType() == this.GetType())
+            {
+                DestroyImmediate(this);
+                return true;
+            }
+
+            return false;
         }
 
         [ContextMenu("Init")]
@@ -81,12 +96,18 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
             for (int i = 0; i < PointsLenght - 1; i++)
                 Gizmos.DrawLine(MultipliedPoints[i], MultipliedPoints[i + 1]);
 
+            DrawEdgesIdHandles();
+        }
+
+        protected virtual void DrawEdgesIdHandles()
+        {
 #if UNITY_EDITOR
             if (DrawEdgesId)
                 for (int i = 0; i < PointsLenght; i++)
                     Handles.Label(MultipliedPoints[i], i.ToString());
 #endif
         }
+
 
         public virtual IDrawData CreateDrawData()
         {

@@ -2,6 +2,7 @@
 
 using System;
 using UnityEngine;
+using Artics.Physics.UnityPhisicsVisualizers.Utils;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -11,7 +12,6 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 {
     [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
     [ExecuteInEditMode]
-    [DisallowMultipleComponent]
     public class Collider2dRenderer : MonoBehaviour
     {
         [Header("Base")]
@@ -19,6 +19,13 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         public bool AlwaysUpdate;
 
         public Color32 MeshColor = Color.white;
+
+        [Tooltip("Set color by material property block")]
+        public bool UseMaterialPropertyBlock = true;
+
+        [Tooltip("Set vertex colors")]
+        public bool SetVertexColors;
+
 
         [Header("Circular render:")]
         [Tooltip("Set to use custom segmentation level for meshes of Circle and Capsule colliders")]
@@ -34,12 +41,15 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         [Tooltip("For ortographic camera only.")]
         public bool UsePixelSize = true;
 
+
         protected MeshFilter MeshFilterComponent;
+        protected MeshRenderer MeshRenderer;
         protected Vector2[] Points;
         protected Collider2D Collider;
         protected GetCoordinatesMethod OnRecalculate;
         protected bool Closed;
         protected Mesh MeshInstance;
+        protected MaterialPropertyBlock ShaderProperty;
 
         private void Awake()
         {
@@ -57,10 +67,10 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         protected void Init()
         {
             if (MeshFilterComponent == null)
-                MeshFilterComponent = gameObject.GetComponent<MeshFilter>();
+                MeshFilterComponent = gameObject.GetOrAddComponent<MeshFilter>();
 
-            if (MeshFilterComponent == null)
-                MeshFilterComponent = gameObject.AddComponent<MeshFilter>();
+            if (MeshRenderer == null)
+                MeshRenderer = gameObject.GetOrAddComponent<MeshRenderer>();
 
             if (Collider == null)
                 Collider = gameObject.GetComponent<Collider2D>();
@@ -83,6 +93,12 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
             if (MeshFilterComponent != null)
                 MeshFilterComponent.sharedMesh = MeshInstance;
+
+            if (MeshRenderer.material == null)
+                MeshRenderer.material = new Material(Shader.Find("Artics/DefaultCollider2D"));
+
+            if (ShaderProperty == null)
+                ShaderProperty = new MaterialPropertyBlock();
         }
 
         public void Build()
@@ -103,14 +119,22 @@ namespace Artics.Physics.UnityPhisicsVisualizers
                 OnRecalculate(Collider, ref Points);
 
             float ppu = UsePixelSize ? (Camera.main.orthographicSize * 2) / Screen.height : 1;
-
             PolygonTriangulator.TriangulateAsLine(Points, MeshInstance, ppu * Thickness, Closed);
 
-            Color32[] colors = new Color32[MeshInstance.vertices.Length];
-            for (int i = 0; i < colors.Length; i++)
-                colors[i] = MeshColor;
+            if (SetVertexColors)
+            {
+                Color32[] colors = new Color32[MeshInstance.vertices.Length];
+                for (int i = 0; i < colors.Length; i++)
+                    colors[i] = MeshColor;
 
-            MeshInstance.colors32 = colors;
+                MeshInstance.colors32 = colors;
+            }
+
+            if (UseMaterialPropertyBlock)
+            {
+                ShaderProperty.SetColor("_Color", MeshColor);
+                MeshRenderer.SetPropertyBlock(ShaderProperty);
+            }
         }
 
         [ContextMenu("Rebuild")]

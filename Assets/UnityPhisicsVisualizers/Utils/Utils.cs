@@ -1,11 +1,10 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 #if UNITY_EDITOR
-using UnityEngine;
+using UnityEditor;
 #endif
 
 namespace Artics.Physics.UnityPhisicsVisualizers.Utils
@@ -25,6 +24,16 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Utils
             return GameObject.FindObjectsOfType<T>().Select(a => a.gameObject).ToArray<GameObject>();
         }
 
+        public static T GetOrAddComponent<T>(this GameObject obj) where T : Component
+        {
+            T instance = obj.GetComponent<T>();
+
+            if (instance == null)
+                instance = obj.AddComponent<T>();
+
+            return instance;
+        }
+
 
 #if UNITY_EDITOR
         public static List<T> FindObjectsInSelection<T>() where T : Component
@@ -40,7 +49,6 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Utils
         {
             return FindObjectsInSelection<T>().Select(a => a.gameObject).ToArray<GameObject>();
         }
-
 #endif
 
     }

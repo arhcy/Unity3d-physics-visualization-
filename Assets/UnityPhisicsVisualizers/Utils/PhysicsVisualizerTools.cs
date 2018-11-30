@@ -38,7 +38,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         /// Seraches for all 2d colliders in scene and adds visualizers to them.
         /// </summary>
 #if UNITY_EDITOR
-        [MenuItem("Tools/Physics2dVisualizer/Add visualizers for all Colliders2d")]
+        [MenuItem("Tools/Physics2dVisualizer/Add visualizers for all Colliders2d and Joints")]
 #endif
         public static void AddVisualizersForAllColliders2d()
         {
@@ -46,11 +46,22 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
             if (visualziers.Length == 0)
             {
-                Debug.Log("No visualizers found");
+                Debug.Log("No Collider visualizers found");
                 return;
             }
 
             AddVisualizersForListedColliders(visualziers);
+
+            var joints = GameObject.FindObjectsOfType<AnchoredJoint2D>();
+
+            if (joints.Length == 0)
+            {
+                Debug.Log("No joints found");
+                return;
+            }
+
+            for (int i = 0; i < joints.Length; i++)
+                joints[i].gameObject.AddComponent<AnchoredJoint2DVisualizer>();
 
             Debug.Log("Visualizers added successfuly");
         }
@@ -85,6 +96,8 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
             return dict;
         }
+
+
 
         #endregion
 
