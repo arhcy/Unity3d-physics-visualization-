@@ -20,6 +20,8 @@ New version supports visualizing through Collider2dRenderer which renders collid
  
   * `AlwaysUpdate` - updates mesh every frame
  * `MeshColor` - vertex color of the mesh
+ * `UseMaterialPropertyBlock` - Set color by material property block
+ * `SetVertexColors` - Set vertices colors with  `MeshColor` value
  * `UseCircleProximity` - use a custom number of segments created for circular areas of CircleCollider2D and CapsuleColldier2D. If not checked default value will be used (20). You can set the default value by accessing static variable Collider2dPointsGetter::CircleProximity.
  * `CustomCircleProximity` - use a custom number of segments
  * `Thickness` - the thickness of shape in Unity points. If a camera is Orthogonal and `UsePixelSize` is true it will be in pixel size
