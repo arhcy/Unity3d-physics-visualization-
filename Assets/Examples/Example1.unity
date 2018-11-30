@@ -142,8 +142,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsVisible: 1
+  DrawEdgesId: 0
   DynamicBounds: 1
   Color: {r: 1, g: 0.9310343, b: 0, a: 1}
+  IsClosed: 1
+  RigidBodyAttached: 0
 --- !u!60 &114964954
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -250,8 +253,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsVisible: 1
+  DrawEdgesId: 0
   DynamicBounds: 1
   Color: {r: 0, g: 0, b: 0, a: 1}
+  IsClosed: 0
+  RigidBodyAttached: 0
 --- !u!1 &1432773408
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,8 +288,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsVisible: 1
+  DrawEdgesId: 0
   DynamicBounds: 1
   Color: {r: 1, g: 0, b: 0, a: 1}
+  IsClosed: 1
+  RigidBodyAttached: 0
+  CustomProximity: 0
 --- !u!58 &1432773410
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -362,8 +372,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsVisible: 1
+  DrawEdgesId: 0
   DynamicBounds: 1
   Color: {r: 1, g: 1, b: 1, a: 1}
+  IsClosed: 1
+  RigidBodyAttached: 1
 --- !u!61 &1626511914
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -387,7 +400,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 2.6, y: 1}
   m_EdgeRadius: 0
 --- !u!4 &1626511915
 Transform:
@@ -397,7 +410,7 @@ Transform:
   m_GameObject: {fileID: 1626511912}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.44, y: 2.23, z: 0}
-  m_LocalScale: {x: 2.06, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -533,8 +546,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsVisible: 1
+  DrawEdgesId: 0
   DynamicBounds: 1
   Color: {r: 0, g: 1, b: 0.37931013, a: 1}
+  IsClosed: 1
+  RigidBodyAttached: 1
+  CustomProximity: 0
+  Radius: 0
 --- !u!70 &1745531860
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -578,7 +596,7 @@ Transform:
   m_GameObject: {fileID: 1745531858}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.09, y: 3.44, z: 0}
-  m_LocalScale: {x: 1.22, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
