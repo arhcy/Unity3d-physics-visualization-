@@ -8,7 +8,9 @@ Tool to help you visualize 2d physics colliders and joints. You can track their 
  <img align="center" src="/Screenshots/MovementLogger.gif">
  </p>
 
-# [version_2] New Collider2dRenderer added:
+You can visualize colliders in two ways: rendering them as mesh and using editor gizmos. Frist method needs more steps to get result, second - is very simple but works only in Editor and need to attach different components for each type of Collider2D. Also, this package includes GUI tools to batch some operations with both types of visualizers.
+
+# Collider2dRenderer:
 
 New version supports visualizing through Collider2dRenderer which renders colliders shape to standard mesh. This type of visualization lacks most features of the gizmos-based visualizers but it works in standalone builds, can be batched in one draw call to minimize graphics overhead impact. 
 
