@@ -1,4 +1,5 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
+
 using UnityEngine;
 using System.Collections.Generic;
 using Artics.Physics.UnityPhisicsVisualizers.Base;
@@ -6,7 +7,7 @@ using Artics.Physics.UnityPhisicsVisualizers.Base;
 namespace Artics.Physics.UnityPhisicsVisualizers
 {
     /// <summary>
-    /// Stores global position of object, and collider visualiztion data
+    /// Stores global position of object, and collider visualization data
     /// </summary>
     public struct MovementData
     {
@@ -17,7 +18,6 @@ namespace Artics.Physics.UnityPhisicsVisualizers
     /// <summary>
     /// 
     /// </summary>
-
     public class MovementLogger : MonoBehaviour
     {
         /// <summary>
@@ -117,7 +117,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         /// <returns></returns>
         protected MovementData GetData()
         {
-            MovementData data = new MovementData();
+            var data = new MovementData();
             data.Position = transform.position;
 
             if (RecordObjectState)
@@ -131,15 +131,13 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             if (!Application.isPlaying)
                 return;
 
-            int count = 0;
-            Vector3 lastPosition = new Vector3();
+            var count = 0;
+            var lastPosition = new Vector3();
 
-            foreach (MovementData data in Buffer)
+            foreach (var data in Buffer)
             {
                 if (DrawPoints)
-                {
                     DrawPoint(data.Position, 0.2f, Color);
-                }
 
                 if (DrawLines)
                 {
@@ -153,10 +151,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
                 }
 
                 if (DrawState)
-                {
-                    if (data.DrawData != null)
-                        data.DrawData.Draw();
-                }
+                    data.DrawData?.Draw();
 
                 count++;
             }
@@ -178,5 +173,4 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             Buffer.Enqueue(GetData());
         }
     }
-
 }

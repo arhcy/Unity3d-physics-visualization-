@@ -8,12 +8,12 @@ using UnityEditor;
 namespace Artics.Physics.UnityPhisicsVisualizers.Base
 {
     /// <summary>
-    /// Base visualizator class
-    /// You can enable and disable visualization by <see cref = "IsVisible" /> parameter
-    /// If collider don't change his Offset, Size, and Direction - you can disable <see cref="DynamicBounds"/> to increase performance
+    /// Base visualizer class.
+    /// You can enable and disable visualization by <see cref = "IsVisible" /> parameter.
+    /// You can disable <see cref="DynamicBounds"/> to increase performance if collider don't change it's Offset, Size, and Direction.
     /// </summary>
     [ExecuteInEditMode]
-    public class BaseVisualizer : MonoBehaviour
+    public abstract class BaseVisualizer : MonoBehaviour
     {
         /// <summary>
         /// Enables or disables rendering of collider
@@ -21,12 +21,10 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
         public bool IsVisible = true;
         public bool DrawEdgesId;
 
-
         /// <summary>
         /// Updates bounds of collider every time <see cref="OnDrawGizmos"/> calls. Useful when you changing Offset, Size or Direction of the collider. If you don't just disable to increase performance.
         /// </summary>
         public bool DynamicBounds = true;
-
         public Color Color = Color.white;
 
         protected Vector2[] MultipliedPoints;
@@ -34,13 +32,13 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
 
         private void Awake()
         {
-            if (CheckDuplicatedComponenets())
+            if (CheckDuplicatedComponents())
                 return;
 
             Init();
         }
 
-        protected bool CheckDuplicatedComponenets()
+        protected bool CheckDuplicatedComponents()
         {
             var visualizer = GetComponent<BaseVisualizer>();
 
@@ -79,15 +77,9 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
         /// <summary>
         /// Update bounds of collider manually.  Use it if you changed Offset, Size or Direction of the collider.
         /// </summary>
-        public virtual void UpdateBounds()
-        {
+        public abstract void UpdateBounds();
 
-        }
-
-        protected virtual void MultiplyMatrix()
-        {
-
-        }
+        protected abstract void MultiplyMatrix();
 
         protected virtual void Draw()
         {
@@ -108,11 +100,9 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
 #endif
         }
 
-
         public virtual IDrawData CreateDrawData()
         {
             return null;
         }
-
     }
 }

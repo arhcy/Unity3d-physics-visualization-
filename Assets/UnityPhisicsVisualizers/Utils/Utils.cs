@@ -13,20 +13,20 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Utils
     {
         public static void SafeDestroyComponent<T>(this GameObject obj) where T : Component
         {
-            T component = obj.GetComponent<T>();
+            var component = obj.GetComponent<T>();
 
             if (component != null)
-                GameObject.DestroyImmediate(component);
+                Object.DestroyImmediate(component);
         }
 
         public static GameObject[] FindComponents<T>() where T : Component
         {
-            return GameObject.FindObjectsOfType<T>().Select(a => a.gameObject).ToArray<GameObject>();
+            return Object.FindObjectsOfType<T>().Select(a => a.gameObject).ToArray<GameObject>();
         }
 
         public static T GetOrAddComponent<T>(this GameObject obj) where T : Component
         {
-            T instance = obj.GetComponent<T>();
+            var instance = obj.GetComponent<T>();
 
             if (instance == null)
                 instance = obj.AddComponent<T>();
@@ -34,22 +34,26 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Utils
             return instance;
         }
 
-
 #if UNITY_EDITOR
         public static List<T> FindObjectsInSelection<T>() where T : Component
         {
-            List<T> list = new List<T>();
-            Selection.gameObjects.Select(a => a.GetComponentsInChildren<T>()).Where(a => a != null).ToList().ForEach(a => a.ToList().ForEach(b => list.Add(b)));
+            var list = new List<T>();
+            Selection.gameObjects
+                .Select(a => a.GetComponentsInChildren<T>())
+                .Where(a => a != null)
+                .ToList()
+                .ForEach(
+                    a => a.ToList()
+                        .ForEach(b => list.Add(b))
+                );
 
             return list;
         }
-
 
         public static GameObject[] FindComponentsInSelection<T>() where T : Component
         {
             return FindObjectsInSelection<T>().Select(a => a.gameObject).ToArray<GameObject>();
         }
 #endif
-
     }
 }

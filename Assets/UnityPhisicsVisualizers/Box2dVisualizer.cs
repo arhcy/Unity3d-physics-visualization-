@@ -1,4 +1,5 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
+
 using UnityEngine;
 using Artics.Physics.UnityPhisicsVisualizers.Base;
 
@@ -27,7 +28,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         {
             base.UpdateBounds();
 
-            Vector3 size = Collider.size * 0.5f;
+            var size = Collider.size * 0.5f;
 
             if (RigidBodyAttached)
                 size.Scale(transform.lossyScale);
@@ -38,7 +39,6 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             Points[3].Set(+size.x, -size.y);
 
             Offset = Collider.offset;
-
             RigidBodyAttached = Collider.attachedRigidbody != null;
         }
 

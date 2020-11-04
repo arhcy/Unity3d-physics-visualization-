@@ -7,7 +7,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
     /// <summary>
     /// Draws gizmos of <seealso cref="EdgeCollider2D"/> which attached for current GameObject.
     /// You can enable and disable visualization by <see cref = "IsVisible" /> parameter
-    /// If collider don't change his Offset, Size, and Direction - you can disable <see cref="DynamicBounds"/> to increase performance
+    /// If collider don't change it's Offset, Size, and Direction - you can disable <see cref="DynamicBounds"/> to increase performance
     /// </summary>
 
     [RequireComponent(typeof(EdgeCollider2D))]
@@ -23,7 +23,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
         protected override void Draw()
         {
-            float edgeRadius = GetEdgeRadius();
+            var edgeRadius = GetEdgeRadius();
 
             if (edgeRadius == 0)
             {
@@ -38,41 +38,43 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         public static void DrawCustomShape(Vector2[] multipliedPoints, float edgeRadius, Color color)
         {
             Gizmos.color = color;
-            Vector2[] Points = null;
+            Vector2[] points = null;
 
             for (int i = 0; i < multipliedPoints.Length - 1; i++)
             {
-                Vector2 HelperVector = multipliedPoints[i + 1] - multipliedPoints[i];
-                HelperVector.Normalize();
-                HelperVector *= edgeRadius;
+                Vector2 helperVector = multipliedPoints[i + 1] - multipliedPoints[i];
+                helperVector.Normalize();
+                helperVector *= edgeRadius;
 
-                Gizmos.DrawLine(new Vector3(multipliedPoints[i].x - HelperVector.y, multipliedPoints[i].y + HelperVector.x), new Vector3(multipliedPoints[i + 1].x - HelperVector.y, multipliedPoints[i + 1].y + HelperVector.x));
-                Gizmos.DrawLine(new Vector3(multipliedPoints[i].x + HelperVector.y, multipliedPoints[i].y - HelperVector.x), new Vector3(multipliedPoints[i + 1].x + HelperVector.y, multipliedPoints[i + 1].y - HelperVector.x));
+                Gizmos.DrawLine(new Vector3(multipliedPoints[i].x - helperVector.y, multipliedPoints[i].y + helperVector.x), new Vector3(multipliedPoints[i + 1].x - helperVector.y, multipliedPoints[i + 1].y + helperVector.x));
+                Gizmos.DrawLine(new Vector3(multipliedPoints[i].x + helperVector.y, multipliedPoints[i].y - helperVector.x), new Vector3(multipliedPoints[i + 1].x + helperVector.y, multipliedPoints[i + 1].y - helperVector.x));
 
-                DrawCircle((Vector2)multipliedPoints[i], edgeRadius, ref Points, color);
+                DrawCircle(multipliedPoints[i], edgeRadius, ref points, color);
             }
 
-            DrawCircle((Vector2)multipliedPoints[multipliedPoints.Length - 1], edgeRadius, ref Points, color);
+            DrawCircle(multipliedPoints[multipliedPoints.Length - 1], edgeRadius, ref points, color);
         }
 
         protected static void DrawCircle(Vector2 center, float radius, ref Vector2[] points, Color color)
         {
             Collider2dPointsGetter.GetCircleCoordinates(center, radius, ref points);
-            ShapeVisualizer.DrawPoints(points, false, color);
+            DrawPoints(points, false, color);
             Gizmos.DrawLine(points[0], points[points.Length - 1]);
         }
 
         protected float GetEdgeRadius()
         {
-            return (Collider as EdgeCollider2D).edgeRadius;
+            return ((EdgeCollider2D) Collider).edgeRadius;
         }
 
         public override IDrawData CreateDrawData()
         {
             var baseData = (Shape2DDrawData)base.CreateDrawData();
-            Edge2DDrawData data = new Edge2DDrawData();
-            data.BaseData = baseData;
-            data.EdgeRadius = GetEdgeRadius();
+            var data = new Edge2DDrawData()
+            {
+                BaseData = baseData,
+                EdgeRadius = GetEdgeRadius()
+            };
 
             return data;
         }

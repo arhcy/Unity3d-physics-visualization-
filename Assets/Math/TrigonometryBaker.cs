@@ -1,6 +1,5 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 
-using System;
 using System.Collections.Generic;
 
 namespace Artics.Math
@@ -14,11 +13,11 @@ namespace Artics.Math
         /// <summary>
         /// stores sin and cos values grouped by proximity
         /// </summary>
-        public Dictionary<uint, double[][]> BakingArray;
+        public readonly Dictionary<uint, double[,]> BakingArray;
 
         public TrigonometryBaker()
         {
-            BakingArray = new Dictionary<uint, double[][]>();
+            BakingArray = new Dictionary<uint, double[,]>();
         }
 
         /// <summary>
@@ -26,19 +25,17 @@ namespace Artics.Math
         /// </summary>
         /// <param name="proximity">Proximity calculates by formula: (Math.PI * 2) / proximity</param>
         /// <returns></returns>
-        public double[][] InitProximity(uint proximity)
+        public double[,] InitProximity(uint proximity)
         {
-            double[][] values = new double[2][];
-            values[0] = new double[proximity];
-            values[1] = new double[proximity];
+            var values = new double[2,proximity];
 
             double angle = 0;
             double angleStep = (System.Math.PI * 2) / proximity;
 
             for (int i = 0; i < proximity; i++)
             {
-                values[0][i] = System.Math.Sin(angle);
-                values[1][i] = System.Math.Cos(angle);
+                values[0,i] = System.Math.Sin(angle);
+                values[1,i] = System.Math.Cos(angle);
 
                 angle += angleStep;
             }
@@ -53,11 +50,9 @@ namespace Artics.Math
         /// </summary>
         /// <param name="proximity">Proximity calculates by formula: (Math.PI * 2) / proximity</param>
         /// <returns></returns>
-        public double[][] GetProximityBake(uint proximity)
+        public double[,] GetProximityBake(uint proximity)
         {
-            double[][] values = null;
-
-            BakingArray.TryGetValue(proximity, out values);
+            BakingArray.TryGetValue(proximity, out var values);
 
             if (values == null)
                 values = InitProximity(proximity);

@@ -27,17 +27,19 @@ public class AnchoredJoint2DVisualizer : ShapeVisualizer
         if (Joint.connectedBody != null)
         {
             var tmpTransform = transform;
-            MultipliedPoints[1] = MultipliedPoints[0] = tmpTransform.position;
+            var tmpPosition = tmpTransform.position;
+
+            MultipliedPoints[1] = MultipliedPoints[0] = tmpPosition;
 
             var matrix = tmpTransform.GetGlobalTransformMatrix(MultipliedPoints[0]);
             tmpTransform = Joint.connectedBody.transform;
 
-            MultipliedPoints[1] += (Vector2)matrix.MultiplyVector(Joint.anchor);
-            MultipliedPoints[3] = MultipliedPoints[2] = tmpTransform.position;
+            MultipliedPoints[1] += (Vector2) matrix.MultiplyVector(Joint.anchor);
+            MultipliedPoints[3] = MultipliedPoints[2] = tmpPosition;
 
             matrix = tmpTransform.GetGlobalTransformMatrix(MultipliedPoints[2]);
 
-            MultipliedPoints[2] += (Vector2)matrix.MultiplyVector(Joint.connectedAnchor);
+            MultipliedPoints[2] += (Vector2) matrix.MultiplyVector(Joint.connectedAnchor);
         }
         else
         {
@@ -46,7 +48,7 @@ public class AnchoredJoint2DVisualizer : ShapeVisualizer
 
             var matrix = tmpTransform.GetGlobalTransformMatrix(MultipliedPoints[0]);
 
-            MultipliedPoints[1] += (Vector2)matrix.MultiplyVector(Joint.anchor);
+            MultipliedPoints[1] += (Vector2) matrix.MultiplyVector(Joint.anchor);
             MultipliedPoints[2] = Joint.connectedAnchor;
         }
     }

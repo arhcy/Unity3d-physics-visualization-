@@ -1,8 +1,4 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Artics.Physics.UnityPhisicsVisualizers.Base
 {
@@ -19,7 +15,4 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
         /// <param name="color"></param>
         void Draw(UnityEngine.Color color);
     }
-
-    
-
 }

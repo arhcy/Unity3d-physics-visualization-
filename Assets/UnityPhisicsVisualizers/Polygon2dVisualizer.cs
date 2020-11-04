@@ -18,7 +18,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         public override void Init()
         {
             Collider = GetComponent<Collider2D>();
-            PointsLenght = GetColldierPoints().Length;
+            PointsLenght = GetColliderPoints().Length;
             MultipliedPoints = new Vector2[PointsLenght];
             IsClosed = true;
 
@@ -29,7 +29,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         {
             base.UpdateBounds();
 
-            Points = GetColldierPoints();
+            Points = GetColliderPoints();
 
             if (PointsLenght != Points.Length)
             {
@@ -40,7 +40,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             Offset = Collider.offset;
         }
 
-        protected Vector2[] GetColldierPoints()
+        protected Vector2[] GetColliderPoints()
         {
             if (Collider is PolygonCollider2D)
                 return (Collider as PolygonCollider2D).points;

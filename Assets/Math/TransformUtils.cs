@@ -1,17 +1,11 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 
 using UnityEngine;
-using System.Collections.Generic;
 
 namespace Artics.Math
 {
     public static class TransformUtils
     {
-        public static Matrix4x4 GetGlobalTransformMatrix(this Transform transform)
-        {
-            return Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale);
-        }
-
         public static Matrix4x4 GetGlobalTransformMatrix(this Transform transform, Vector3 position)
         {
             return Matrix4x4.TRS(position, transform.rotation, transform.lossyScale);
@@ -19,32 +13,9 @@ namespace Artics.Math
 
         public static Matrix4x4 GetGlobalTransformMatrix2(this Transform transform)
         {
-            Matrix4x4 matrix = transform.localToWorldMatrix;
-
             return LocalToWorld(transform);
-            /*var parent = transform.parent;
-
-            var matrices = new List<Matrix4x4>();
-            matrices.Add(matrix);
-
-            while (parent != null)
-            {
-                //matrix *= parent.worldToLocalMatrix;
-                matrices.Add(parent.localToWorldMatrix);
-                parent = parent.parent;
-            }
-
-            int len = matrices.Count - 1;
-
-            matrix = matrices[len];
-
-            while (--len >= 0)
-                matrix *= matrices[len];
-
-            return matrix;*/
         }
 
-        // t.localToWorldMatrix
         public static Matrix4x4 LocalToWorld(Transform t)
         {
             if (t == null)
@@ -91,10 +62,12 @@ namespace Artics.Math
             var sin = Mathf.Sin(rad);
             var cos = Mathf.Cos(rad);
             var mat = Matrix4x4.identity;
+
             mat.m22 = cos;
             mat.m20 = -sin;
             mat.m02 = sin;
             mat.m00 = cos;
+
             return mat;
         }
 
@@ -106,10 +79,12 @@ namespace Artics.Math
             var sin = Mathf.Sin(rad);
             var cos = Mathf.Cos(rad);
             var mat = Matrix4x4.identity;
+
             mat.m00 = cos;
             mat.m01 = -sin;
             mat.m10 = sin;
             mat.m11 = cos;
+
             return mat;
         }
 
@@ -117,9 +92,11 @@ namespace Artics.Math
         public static Matrix4x4 Scale(Vector3 scale)
         {
             var mat = Matrix4x4.identity;
+
             mat.m00 = scale.x;
             mat.m11 = scale.y;
             mat.m22 = scale.z;
+
             return mat;
         }
 
@@ -127,13 +104,12 @@ namespace Artics.Math
         public static Matrix4x4 Translate(Vector3 vec)
         {
             var mat = Matrix4x4.identity;
+
             mat.m03 = vec.x;
             mat.m13 = vec.y;
             mat.m23 = vec.z;
+
             return mat;
         }
-
-
-
     }
 }

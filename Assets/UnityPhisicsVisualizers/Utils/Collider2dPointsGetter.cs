@@ -1,12 +1,13 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
+
 #if NET_4_6
 using System.Runtime.CompilerServices;
 #endif
 
-using UnityEngine;
-using Artics.Math;
 using System;
 using System.Collections.Generic;
+using Artics.Math;
+using UnityEngine;
 
 namespace Artics.Physics.UnityPhisicsVisualizers
 {
@@ -15,39 +16,39 @@ namespace Artics.Physics.UnityPhisicsVisualizers
     /// <summary>
     /// Set of static funtions to get raw poins of physics colliders2d. 
     /// </summary>
-    public class Collider2dPointsGetter
+    public static class Collider2dPointsGetter
     {
         /// <summary>
         /// number of iterations to get points of circle
         /// </summary>
         public static uint CircleProximity = 20;
 
-        protected static Dictionary<Type, GetCoordinatesMethod> TypeMethodDict;
+        /// <summary>
+        /// bakes sin and cos values for performance
+        /// </summary>
+        private static TrigonometryBaker TrigonometryManager = new TrigonometryBaker();
+        
+        private static Dictionary<Type, GetCoordinatesMethod> TypeMethodDict;
 
         public static Dictionary<Type, GetCoordinatesMethod> GetTypeMethodDictionary()
         {
             if (TypeMethodDict == null)
                 TypeMethodDict = new Dictionary<Type, GetCoordinatesMethod>()
-                    {
-                        { typeof(BoxCollider2D), GetBoxCoordinates },
-                        { typeof(PolygonCollider2D), GetPolygonCoordinates},
-                        { typeof(EdgeCollider2D), GetEdgeCoordinates},
-                        { typeof(CircleCollider2D), GetCircleCoordinates},
-                        { typeof(CapsuleCollider2D), GetCapsuleCoordinates}
-                    };
+                {
+                    {typeof(BoxCollider2D), GetBoxCoordinates},
+                    {typeof(PolygonCollider2D), GetPolygonCoordinates},
+                    {typeof(EdgeCollider2D), GetEdgeCoordinates},
+                    {typeof(CircleCollider2D), GetCircleCoordinates},
+                    {typeof(CapsuleCollider2D), GetCapsuleCoordinates}
+                };
 
             return TypeMethodDict;
         }
 
-        public static void GetColldierPoints(Collider2D collider, ref Vector2[] points)
+        public static void GetColliderPoints(Collider2D collider, ref Vector2[] points)
         {
             GetTypeMethodDictionary()[collider.GetType()](collider, ref points);
         }
-
-        /// <summary>
-        /// bakes sin and cos values for performance
-        /// </summary>
-        public static TrigonometryBaker TrigonometryManager = new TrigonometryBaker();
 
         #region UncastedMethods
 
@@ -78,9 +79,8 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
         #endregion
 
-
-
         #region SimpleShapes
+
         /// <summary>
         /// Get coordinates of Box2DCollider
         /// </summary>
@@ -88,7 +88,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         /// <param name="points"></param>
         public static void GetBoxCoordinates(BoxCollider2D collider, ref Vector2[] points)
         {
-            PointsArraySizevalidation(ref points, 4);
+            PointsArraySizeValidation(ref points, 4);
 
             Vector2 offset = collider.offset;
             Vector2 size = collider.size * 0.5f;
@@ -106,7 +106,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         /// <param name="points"></param>
         public static void GetPolygonCoordinates(PolygonCollider2D collider, ref Vector2[] points)
         {
-            CalculatePolygonCoodinates(collider.points, collider.offset, ref points);
+            CalculatePolygonCoordinates(collider.points, collider.offset, ref points);
         }
 
         /// <summary>
@@ -116,18 +116,18 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         /// <param name="points">input points</param>
         public static void GetEdgeCoordinates(EdgeCollider2D collider, ref Vector2[] points)
         {
-            CalculatePolygonCoodinates(collider.points, collider.offset, ref points);
+            CalculatePolygonCoordinates(collider.points, collider.offset, ref points);
         }
 
-        public static void PointsArraySizevalidation(ref Vector2[] points, int size)
+        public static void PointsArraySizeValidation(ref Vector2[] points, int size)
         {
             if (points == null || points.Length != size)
                 points = new Vector2[size];
         }
 
-        protected static void CalculatePolygonCoodinates(Vector2[] colliderPoints, Vector2 offset, ref Vector2[] points)
+        private static void CalculatePolygonCoordinates(Vector2[] colliderPoints, Vector2 offset, ref Vector2[] points)
         {
-            PointsArraySizevalidation(ref points, colliderPoints.Length);
+            PointsArraySizeValidation(ref points, colliderPoints.Length);
 
             for (int i = 0; i < colliderPoints.Length; i++)
                 points[i].Set(colliderPoints[i].x + offset.x, colliderPoints[i].y + offset.y);
@@ -137,17 +137,16 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
         #region Circle
 
-        protected static void ProximityCheck(ref uint proximity)
+        private static void ProximityCheck(ref uint proximity)
         {
             if (proximity == 0)
                 proximity = CircleProximity;
         }
 
-
-        protected static void FillCirclePoint(Vector2[] points, Vector2 center, double radius, double[][] values, int IdOffset, int ValuesOffset, int times)
+        private static void FillCirclePoint(Vector2[] points, Vector2 center, double radius, double[,] values, int idOffset, int valuesOffset, int times)
         {
             for (int i = 0; i < times; i++)
-                points[IdOffset + i].Set(center.x + (float)(radius * values[1][ValuesOffset + i]), center.y + (float)(radius * values[0][ValuesOffset + i]));
+                points[idOffset + i].Set(center.x + (float) (radius * values[1, valuesOffset + i]), center.y + (float) (radius * values[0, valuesOffset + i]));
         }
 
         /// <summary>
@@ -155,15 +154,15 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         /// </summary>
         /// <param name="collider">collider</param>
         /// <param name="points">points array</param>
-        /// <param name="CustomProximity">if set to 0 it uses <see cref="CircleProximity"/>. Otherwise it uses listed value to calculate circular coordinates</param>
-        public static void GetCircleCoordinates(CircleCollider2D collider, ref Vector2[] points, uint CustomProximity = 0)
+        /// <param name="customProximity">if set to 0 it uses <see cref="CircleProximity"/>. Otherwise it uses listed value to calculate circular coordinates</param>
+        public static void GetCircleCoordinates(CircleCollider2D collider, ref Vector2[] points, uint customProximity = 0)
         {
-            ProximityCheck(ref CustomProximity);
-            PointsArraySizevalidation(ref points, (int)CustomProximity);
+            ProximityCheck(ref customProximity);
+            PointsArraySizeValidation(ref points, (int) customProximity);
 
-            double[][] values = TrigonometryManager.GetProximityBake(CustomProximity);
+            var values = TrigonometryManager.GetProximityBake(customProximity);
 
-            FillCirclePoint(points, collider.offset, collider.radius, values, 0, 0, (int)CustomProximity);
+            FillCirclePoint(points, collider.offset, collider.radius, values, 0, 0, (int) customProximity);
         }
 
         /// <summary>
@@ -172,19 +171,21 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         /// <param name="center"></param>
         /// <param name="radius"></param>
         /// <param name="points"></param>
-        /// <param name="CustomProximity">if set to 0 it uses <see cref="CircleProximity"/>. Otherwise it uses listed value to calculate circular coordinates</param>
-        public static void GetCircleCoordinates(Vector2 center, float radius, ref Vector2[] points, uint CustomProximity = 0)
+        /// <param name="customProximity">if set to 0 it uses <see cref="CircleProximity"/>. Otherwise it uses listed value to calculate circular coordinates</param>
+        public static void GetCircleCoordinates(Vector2 center, float radius, ref Vector2[] points, uint customProximity = 0)
         {
-            ProximityCheck(ref CustomProximity);
-            PointsArraySizevalidation(ref points, (int)CustomProximity);
+            ProximityCheck(ref customProximity);
+            PointsArraySizeValidation(ref points, (int) customProximity);
 
-            double[][] values = TrigonometryManager.GetProximityBake(CustomProximity);
+            var values = TrigonometryManager.GetProximityBake(customProximity);
 
-            FillCirclePoint(points, center, radius, values, 0, 0, (int)CustomProximity);
+            FillCirclePoint(points, center, radius, values, 0, 0, (int) customProximity);
         }
+
         #endregion
 
         #region Capsule
+
         /// <summary>
         /// get coordinates of CapsuleCollider2D
         /// </summary>
@@ -194,18 +195,18 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         public static void GetCapsuleCoordinates(CapsuleCollider2D collider, ref Vector2[] points, uint CustomProximity = 0, bool UseLossyScale = false)
         {
             ProximityCheck(ref CustomProximity);
-            PointsArraySizevalidation(ref points, (int)CustomProximity + 4);
+            PointsArraySizeValidation(ref points, (int) CustomProximity + 4);
 
-            uint rest = CustomProximity % 4;
+            var rest = CustomProximity % 4;
 
             if (rest > 0)
                 CustomProximity += rest;
 
             float radius = 0;
-            Vector2 StartPosition = new Vector2();
-            Vector2 EndPosition = new Vector2();
-            Vector2 size = collider.size * 0.5f;
-            Vector2 scale = collider.transform.lossyScale;
+            var startPosition = new Vector2();
+            var endPosition = new Vector2();
+            var size = collider.size * 0.5f;
+            var scale = collider.transform.lossyScale;
 
             if (UseLossyScale)
             {
@@ -218,106 +219,107 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
             if (collider.direction == CapsuleDirection2D.Vertical)
             {
-                CalculateCapsuleBoundsVertical(ref StartPosition, ref EndPosition, ref radius, size);
-                AddCapsuleOffset(collider, ref StartPosition, ref EndPosition, scale, UseLossyScale);
-                GetCapsulePointsVertical(StartPosition, EndPosition, radius, CustomProximity, points);
+                CalculateCapsuleBoundsVertical(ref startPosition, ref endPosition, ref radius, size);
+                AddCapsuleOffset(collider, ref startPosition, ref endPosition, scale, UseLossyScale);
+                GetCapsulePointsVertical(startPosition, endPosition, radius, CustomProximity, points);
             }
             else
             {
-                CalculateCapsuleBoundsHorizontal(ref StartPosition, ref EndPosition, ref radius, size);
-                AddCapsuleOffset(collider, ref StartPosition, ref EndPosition, scale, UseLossyScale);
-                GetCapsulePointsHorizontal(StartPosition, EndPosition, radius, CustomProximity, points);
+                CalculateCapsuleBoundsHorizontal(ref startPosition, ref endPosition, ref radius, size);
+                AddCapsuleOffset(collider, ref startPosition, ref endPosition, scale, UseLossyScale);
+                GetCapsulePointsHorizontal(startPosition, endPosition, radius, CustomProximity, points);
             }
         }
 
 #if NET_4_6
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        protected static void CalculateCapsuleBoundsVertical(ref Vector2 StartPosition, ref Vector2 EndPosition, ref float Radius, Vector2 size)
+        private static void CalculateCapsuleBoundsVertical(ref Vector2 startPosition, ref Vector2 endPosition, ref float radius, Vector2 size)
         {
-            Radius = size.x;
+            radius = size.x;
 
             if (size.y > size.x)
             {
-                StartPosition.y = size.y - Radius;
-                EndPosition.y = StartPosition.y * -1;
+                startPosition.y = size.y - radius;
+                endPosition.y = startPosition.y * -1;
             }
         }
 
 #if NET_4_6
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        protected static void CalculateCapsuleBoundsHorizontal(ref Vector2 StartPosition, ref Vector2 EndPosition, ref float Radius, Vector2 size)
+        private static void CalculateCapsuleBoundsHorizontal(ref Vector2 startPosition, ref Vector2 endPosition, ref float radius, Vector2 size)
         {
-            Radius = size.y;
+            radius = size.y;
 
             if (size.x > size.y)
             {
-                StartPosition.x = size.x - Radius;
-                EndPosition.x = StartPosition.x * -1;
+                startPosition.x = size.x - radius;
+                endPosition.x = startPosition.x * -1;
             }
         }
 
 #if NET_4_6
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        protected static void AddCapsuleOffset(CapsuleCollider2D collider, ref Vector2 StartPosition, ref Vector2 EndPosition, Vector2 scale, bool useLossyScale)
+        private static void AddCapsuleOffset(CapsuleCollider2D collider, ref Vector2 startPosition, ref Vector2 endPosition, Vector2 scale, bool useLossyScale)
         {
             if (useLossyScale)
                 scale.Scale(collider.offset);
             else
                 scale = collider.offset;
 
-            StartPosition += scale;
-            EndPosition += scale;
+            startPosition += scale;
+            endPosition += scale;
         }
 
 #if NET_4_6
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        protected static void GetCapsulePointsVertical(Vector2 StartPosition, Vector2 EndPosition, float radius, uint CustomProximity, Vector2[] points)
+        private static void GetCapsulePointsVertical(Vector2 startPosition, Vector2 endPosition, float radius, uint customProximity, Vector2[] points)
         {
-            double[][] values = TrigonometryManager.GetProximityBake(CustomProximity);
-            int half = Mathf.RoundToInt(CustomProximity / 2);
+            var values = TrigonometryManager.GetProximityBake(customProximity);
+            var half = Mathf.RoundToInt(customProximity / 2f);
 
-            points[0].Set(StartPosition.x + radius, EndPosition.y);
-            points[1].Set(StartPosition.x + radius, StartPosition.y);
+            points[0].Set(startPosition.x + radius, endPosition.y);
+            points[1].Set(startPosition.x + radius, startPosition.y);
 
-            FillCirclePoint(points, StartPosition, radius, values, 2, 0, half);
+            FillCirclePoint(points, startPosition, radius, values, 2, 0, half);
 
-            points[half + 2].Set(StartPosition.x - radius, StartPosition.y);
-            points[half + 3].Set(StartPosition.x - radius, EndPosition.y);
+            points[half + 2].Set(startPosition.x - radius, startPosition.y);
+            points[half + 3].Set(startPosition.x - radius, endPosition.y);
 
-            FillCirclePoint(points, EndPosition, radius, values, half + 4, half, half);
+            FillCirclePoint(points, endPosition, radius, values, half + 4, half, half);
         }
 
 #if NET_4_6
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 #endif
-        protected static void GetCapsulePointsHorizontal(Vector2 StartPosition, Vector2 EndPosition, float radius, uint CustomProximity, Vector2[] points)
+        private static void GetCapsulePointsHorizontal(Vector2 startPosition, Vector2 endPosition, float radius, uint customProximity, Vector2[] points)
         {
-            double[][] values = TrigonometryManager.GetProximityBake(CustomProximity);
-            int quart = Mathf.RoundToInt(CustomProximity / 4);
+            var values = TrigonometryManager.GetProximityBake(customProximity);
+            var quart = Mathf.RoundToInt(customProximity / 4f);
 
-            points[0].Set(EndPosition.x, EndPosition.y - radius);
-            points[1].Set(StartPosition.x, StartPosition.y - radius);
+            points[0].Set(endPosition.x, endPosition.y - radius);
+            points[1].Set(startPosition.x, startPosition.y - radius);
 
-            int idOffset = 2;
+            var idOffset = 2;
 
-            FillCirclePoint(points, StartPosition, radius, values, idOffset, quart * 3, quart);
+            FillCirclePoint(points, startPosition, radius, values, idOffset, quart * 3, quart);
             idOffset += quart;
-            FillCirclePoint(points, StartPosition, radius, values, idOffset, 0, quart);
+            FillCirclePoint(points, startPosition, radius, values, idOffset, 0, quart);
             idOffset += quart;
 
-            points[idOffset].Set(StartPosition.x, StartPosition.y + radius);
-            points[idOffset + 1].Set(EndPosition.x, EndPosition.y + radius);
+            points[idOffset].Set(startPosition.x, startPosition.y + radius);
+            points[idOffset + 1].Set(endPosition.x, endPosition.y + radius);
 
             idOffset += 2;
 
-            FillCirclePoint(points, EndPosition, radius, values, idOffset, quart * 1, quart);
+            FillCirclePoint(points, endPosition, radius, values, idOffset, quart * 1, quart);
             idOffset += quart;
-            FillCirclePoint(points, EndPosition, radius, values, idOffset, quart * 2, quart);
+            FillCirclePoint(points, endPosition, radius, values, idOffset, quart * 2, quart);
         }
+
         #endregion
     }
 }

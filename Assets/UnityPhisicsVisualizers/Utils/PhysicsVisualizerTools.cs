@@ -3,7 +3,6 @@
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-
 using System.Collections.Generic;
 using UnityEngine;
 using Artics.Physics.UnityPhisicsVisualizers.Utils;
@@ -18,6 +17,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
     public class PhysicsVisualizerTools : MonoBehaviour
     {
         #region GizmosVisualizer
+
         /// <summary>
         /// Removes all visualizers components in scene.
         /// </summary>
@@ -26,33 +26,33 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 #endif
         public static void RemoveAllVisualizers()
         {
-            BaseVisualizer[] visualziers = GameObject.FindObjectsOfType<BaseVisualizer>();
+            var visualizers = FindObjectsOfType<BaseVisualizer>();
 
-            for (int i = 0; i < visualziers.Length; i++)
-                GameObject.DestroyImmediate(visualziers[i]);
+            foreach (var item in visualizers)
+                GameObject.DestroyImmediate(item);
 
-            Debug.Log("Visualizers removed successfuly");
+            Debug.Log("Visualizers removed successfully");
         }
 
         /// <summary>
-        /// Seraches for all 2d colliders in scene and adds visualizers to them.
+        /// Searches for all 2d colliders in scene and adds visualizers to them.
         /// </summary>
 #if UNITY_EDITOR
         [MenuItem("Tools/Physics2dVisualizer/Add visualizers for all Colliders2d and Joints")]
 #endif
         public static void AddVisualizersForAllColliders2d()
         {
-            Collider2D[] visualziers = GameObject.FindObjectsOfType<Collider2D>();
+            var visualizers = FindObjectsOfType<Collider2D>();
 
-            if (visualziers.Length == 0)
+            if (visualizers.Length == 0)
             {
                 Debug.Log("No Collider visualizers found");
                 return;
             }
 
-            AddVisualizersForListedColliders(visualziers);
+            AddVisualizersForListedColliders(visualizers);
 
-            var joints = GameObject.FindObjectsOfType<AnchoredJoint2D>();
+            var joints = FindObjectsOfType<AnchoredJoint2D>();
 
             if (joints.Length == 0)
             {
@@ -63,30 +63,29 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             for (int i = 0; i < joints.Length; i++)
                 joints[i].gameObject.AddComponent<AnchoredJoint2DVisualizer>();
 
-            Debug.Log("Visualizers added successfuly");
+            Debug.Log("Visualizers added successfully");
         }
 
-        public static void AddVisualizersForListedColliders(Collider2D[] visualziers)
+        public static void AddVisualizersForListedColliders(Collider2D[] visualizers)
         {
             var relations = GetColliderVisualizerRelations();
 
-            for (int i = 0; i < visualziers.Length; i++)
+            foreach (var item in visualizers)
             {
-                Type type = null;
-                relations.TryGetValue(visualziers[i].GetType(), out type);
+                relations.TryGetValue(item.GetType(), out var type);
 
                 if (type != null)
-                    visualziers[i].gameObject.AddComponent(type);
+                    item.gameObject.AddComponent(type);
             }
         }
 
         /// <summary>
-        /// Returns dictionary which relates colldier and visualizer types.
+        /// Returns dictionary which relates collier and visualizer types.
         /// </summary>
         /// <returns></returns>
         public static Dictionary<Type, Type> GetColliderVisualizerRelations()
         {
-            Dictionary<Type, Type> dict = new Dictionary<Type, Type>();
+            var dict = new Dictionary<Type, Type>();
 
             dict.Add(typeof(BoxCollider2D), typeof(Box2dVisualizer));
             dict.Add(typeof(CircleCollider2D), typeof(Circle2dVisualizer));
@@ -96,8 +95,6 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
             return dict;
         }
-
-
 
         #endregion
 
@@ -109,40 +106,40 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 #if UNITY_EDITOR
         [MenuItem("Tools/Physics2dVisualizer/Remove all Collider2dRenderer")]
 #endif
-        public static void RemoveAllrenderers()
+        public static void RemoveAllRenderers()
         {
-            Collider2dRenderer[] visualziers = GameObject.FindObjectsOfType<Collider2dRenderer>();
+            var visualizers = FindObjectsOfType<Collider2dRenderer>();
 
-            for (int i = 0; i < visualziers.Length; i++)
-                RemoveCollider2DRenderer(visualziers[i].gameObject);
+            foreach (var item in visualizers)
+                RemoveCollider2DRenderer(item.gameObject);
 
-            Debug.Log("Rendereers removed successfuly");
+            Debug.Log("Renderers removed successfully");
         }
 
         /// <summary>
-        /// Seraches for all 2d colliders in scene and adds <see cref="Collider2dRenderer"/> to them.
+        /// Searches for all 2d colliders in scene and adds <see cref="Collider2dRenderer"/> to them.
         /// </summary>
 #if UNITY_EDITOR
         [MenuItem("Tools/Physics2dVisualizer/Add the Collider2dRenderer for all Colliders2d")]
 #endif
-        public static void AddRendereresForAllColliders2d()
+        public static void AddRenderersForAllColliders2d()
         {
-            Collider2D[] visualziers = GameObject.FindObjectsOfType<Collider2D>();
+            var visualizers = FindObjectsOfType<Collider2D>();
 
-            if (visualziers.Length == 0)
+            if (visualizers.Length == 0)
             {
                 Debug.Log("No visualizers found");
                 return;
             }
 
-            for (int i = 0; i < visualziers.Length; i++)
-                visualziers[i].gameObject.AddComponent<Collider2dRenderer>();
+            for (int i = 0; i < visualizers.Length; i++)
+                visualizers[i].gameObject.AddComponent<Collider2dRenderer>();
 
-            Debug.Log("Renderers added successfuly");
+            Debug.Log("Renderers added successfully");
         }
 
         /// <summary>
-        /// removes <see cref="Collider2dRenderer"/> and depended <see cref="MeshRenderer"/>, <see cref="MeshFilter"/> from gameobject
+        /// Removes <see cref="Collider2dRenderer"/> and depended <see cref="MeshRenderer"/>, <see cref="MeshFilter"/> from gameobject
         /// </summary>
         /// <param name="instance"></param>
         public static void RemoveCollider2DRenderer(GameObject instance)
@@ -153,7 +150,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         }
 
         /// <summary>
-        /// Addds "Sprites/Default" material to all colliders renderers
+        /// Adds "Sprites/Default" material to all colliders renderers
         /// </summary>
 #if UNITY_EDITOR
         [MenuItem("Tools/Physics2dVisualizer/Add default sprites material for all Colliders2d")]
@@ -161,7 +158,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         public static void AddDefaultMaterialToAllRenderers()
         {
             AddMaterialToAllRenderers(new Material(Shader.Find("Sprites/Default")));
-            Debug.Log("Rendereers removed successfuly");
+            Debug.Log("Renderers removed successfully");
         }
 
         /// <summary>
@@ -170,10 +167,10 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         /// <param name="material"></param>
         public static void AddMaterialToAllRenderers(Material material)
         {
-            Collider2dRenderer[] visualziers = GameObject.FindObjectsOfType<Collider2dRenderer>();
+            var visualizers = GameObject.FindObjectsOfType<Collider2dRenderer>();
 
-            for (int i = 0; i < visualziers.Length; i++)
-                visualziers[i].GetComponent<MeshRenderer>().sharedMaterial = material;
+            foreach (var item in visualizers)
+                item.GetComponent<MeshRenderer>().sharedMaterial = material;
         }
 
         #endregion

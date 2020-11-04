@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEditor;
-using Artics.Physics.UnityPhisicsVisualizers.Utils;
-using Artics.Physics.UnityPhisicsVisualizers;
-using System.Linq;
+﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
+
 using System;
+using Artics.Physics.UnityPhisicsVisualizers;
 using Artics.Physics.UnityPhisicsVisualizers.Base;
+using Artics.Physics.UnityPhisicsVisualizers.Utils;
+using UnityEditor;
+using UnityEngine;
 
 public class Collider2dVisualizersWindow : EditorWindow
 {
     protected Material DefaultMaterial;
     protected Color32 DefaultColor;
-    protected float DefaultThikness;
+    protected float DefaultThickness;
     protected bool DefaultPixelSize;
     protected int DefaultCircleProximity;
     protected bool DefaultUseCircleProximity;
@@ -24,7 +23,7 @@ public class Collider2dVisualizersWindow : EditorWindow
     static void Init()
     {
         // Get existing open window or if none, make a new one:
-        var window = EditorWindow.GetWindow(typeof(Collider2dVisualizersWindow));
+        var window = GetWindow(typeof(Collider2dVisualizersWindow));
         window.Show();
     }
 
@@ -34,7 +33,7 @@ public class Collider2dVisualizersWindow : EditorWindow
         DefaultColor = Color.white;
         DefaultCircleProximity = 20;
         DefaultPixelSize = true;
-        DefaultThikness = 1;
+        DefaultThickness = 1;
     }
 
     void OnGUI()
@@ -43,7 +42,7 @@ public class Collider2dVisualizersWindow : EditorWindow
         GUILayout.Label("Collider2D:", EditorStyles.boldLabel);
 
         GUILayout.BeginHorizontal();
-        DrawSelectionButtons("Select All", "Select all in childs",
+        DrawSelectionButtons("Select All", "Select all in children",
             () => Selection.objects = Utils.FindComponents<Collider2D>(),
             () => Selection.objects = Utils.FindComponentsInSelection<Collider2D>()
         );
@@ -57,7 +56,7 @@ public class Collider2dVisualizersWindow : EditorWindow
         GUILayout.Label("Gizmos visualizers:", EditorStyles.boldLabel);
 
         GUILayout.BeginHorizontal();
-        DrawSelectionButtons("Select All", "Select all in childs",
+        DrawSelectionButtons("Select All", "Select all in children",
             () => Selection.objects = Utils.FindComponents<BaseVisualizer>(),
             () => Selection.objects = Utils.FindComponentsInSelection<BaseVisualizer>()
         );
@@ -69,7 +68,7 @@ public class Collider2dVisualizersWindow : EditorWindow
 
         DrawSelectionButtons("Add visualizers", "Remove visualizers",
             () => PhysicsVisualizerTools.AddVisualizersForListedColliders(Utils.FindObjectsInSelection<Collider2D>().ToArray()),
-            () => Utils.FindObjectsInSelection<BaseVisualizer>().ForEach(a => GameObject.DestroyImmediate(a))
+            () => Utils.FindObjectsInSelection<BaseVisualizer>().ForEach(DestroyImmediate)
         );
 
         GUILayout.EndHorizontal();
@@ -83,7 +82,7 @@ public class Collider2dVisualizersWindow : EditorWindow
 
         //select
         GUILayout.BeginHorizontal();
-        DrawSelectionButtons("Select All", "Select all in childs",
+        DrawSelectionButtons("Select All", "Select all in children",
             () => Selection.objects = Utils.FindComponents<Collider2dRenderer>(),
             () => Selection.objects = Utils.FindComponentsInSelection<Collider2dRenderer>()
         );
@@ -119,13 +118,13 @@ public class Collider2dVisualizersWindow : EditorWindow
         GUILayout.Space(4);
 
         //thickness
-        GUILayout.Label("Tickness:");
+        GUILayout.Label("Thickness:");
         GUILayout.BeginHorizontal();
-        DefaultThikness = EditorGUILayout.FloatField(DefaultThikness, GUILayout.ExpandWidth(false), GUILayout.Width(50));
+        DefaultThickness = EditorGUILayout.FloatField(DefaultThickness, GUILayout.ExpandWidth(false), GUILayout.Width(50));
         GUILayout.Label("Use pixel size:");
         DefaultPixelSize = EditorGUILayout.Toggle(DefaultPixelSize, GUILayout.ExpandWidth(false));
         if (GUILayout.Button("Set"))
-            Utils.FindObjectsInSelection<Collider2dRenderer>().ForEach(a => a.SetThickness(DefaultThikness, DefaultPixelSize));        
+            Utils.FindObjectsInSelection<Collider2dRenderer>().ForEach(a => a.SetThickness(DefaultThickness, DefaultPixelSize));        
         GUILayout.EndHorizontal();
         GUILayout.Space(4);
 
@@ -152,24 +151,21 @@ public class Collider2dVisualizersWindow : EditorWindow
         #endregion
     }
 
-    protected void DrawSelectionButtons(string label1, string label2, Action OnAll, Action OnSelected)
+    protected void DrawSelectionButtons(string label1, string label2, Action onAll, Action onSelected)
     {
         if (GUILayout.Button(label1, GUILayout.ExpandWidth(false)))
-            OnAll();
+            onAll();
 
         if (GUILayout.Button(label2, GUILayout.ExpandWidth(false)))
-            OnSelected();
+            onSelected();
     }
 
-    protected void DrawSelectionButtons(Action OnAll, Action OnSelected)
+    protected void DrawSelectionButtons(Action onAll, Action onSelected)
     {
         if (GUILayout.Button("All colliders", GUILayout.ExpandWidth(false)))
-            OnAll();
+            onAll();
 
         if (GUILayout.Button("All selected", GUILayout.ExpandWidth(false)))
-            OnSelected();
+            onSelected();
     }
-
-
-
 }

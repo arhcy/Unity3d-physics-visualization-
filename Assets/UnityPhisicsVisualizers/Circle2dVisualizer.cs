@@ -27,6 +27,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
         {
             Collider = GetComponent<CircleCollider2D>();
             IsClosed = true;
+            
             base.Init();
         }
 
@@ -38,8 +39,8 @@ namespace Artics.Physics.UnityPhisicsVisualizers
 
         protected override void MultiplyMatrix()
         {
-            Matrix4x4 matrix = GetMatrix();
-            Vector3 lossyScale = transform.lossyScale;
+            var matrix = GetMatrix();
+            var lossyScale = transform.lossyScale;
 
             MultipliedCenter = matrix.MultiplyPoint(Center);
             MultipliedRadius = Radius * Mathf.Max(Mathf.Abs(lossyScale.x), Mathf.Abs(lossyScale.y));

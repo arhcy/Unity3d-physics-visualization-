@@ -1,7 +1,6 @@
 ﻿// Copyright (c) 2018 Archy Piragkov. All Rights Reserved.  Licensed under the MIT license
 using System;
 using UnityEngine;
-using Artics.Math;
 
 namespace Artics.Physics.UnityPhisicsVisualizers.Base
 {
@@ -11,17 +10,15 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
     public class ShapeVisualizer : BaseVisualizer
     {
         public bool IsClosed;
+        public bool RigidBodyAttached;
+        
         protected Vector2[] Points;
         protected Vector2 Offset;
         protected Collider2D BaseCollider;
-        public bool RigidBodyAttached;
 
         public override void Init()
         {
-            //Points = new Vector2[0];
-            //MultipliedPoints = new Vector2[0];
             BaseCollider = GetComponent<Collider2D>();
-
             base.Init();
         }
 
@@ -35,7 +32,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
         {
             Matrix4x4 matrix = GetMatrix();
 
-            for (int i = 0; i < Points.Length; i++)
+            for (var i = 0; i < Points.Length; i++)
                 MultipliedPoints[i] = matrix.MultiplyPoint(Points[i] + Offset);
         }
 
@@ -59,9 +56,9 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
         public static void DrawPoints(Vector2[] MultipliedPoints, bool IsClosed, Color color)
         {
             Gizmos.color = color;
-            int PointsLenght = MultipliedPoints.Length - 1;
+            var PointsLenght = MultipliedPoints.Length - 1;
 
-            for (int i = 0; i < PointsLenght; i++)
+            for (var i = 0; i < PointsLenght; i++)
                 Gizmos.DrawLine(MultipliedPoints[i], MultipliedPoints[i + 1]);
 
             if (IsClosed && PointsLenght > 0)
@@ -76,7 +73,6 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
                 return transform.localToWorldMatrix;
         }
     }
-
 
     /// <summary>
     /// struct to store calculated data and draw it outside of class
@@ -98,5 +94,4 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
             ShapeVisualizer.DrawPoints(MultipliedPoints, IsClosed, Color);
         }
     }
-
 }
