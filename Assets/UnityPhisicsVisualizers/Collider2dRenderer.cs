@@ -93,8 +93,8 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             if (MeshFilterComponent != null)
                 MeshFilterComponent.sharedMesh = MeshInstance;
 
-            if (MeshRenderer.material == null)
-                MeshRenderer.material = new Material(Shader.Find("Artics/DefaultCollider2D"));
+            if (MeshRenderer.sharedMaterial == null)
+                MeshRenderer.sharedMaterial = new Material(Shader.Find("Artics/DefaultCollider2D"));
 
             if (ShaderProperty == null)
                 ShaderProperty = new MaterialPropertyBlock();
