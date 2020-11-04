@@ -48,7 +48,9 @@ namespace Artics.Physics.UnityPhisicsVisualizers.Base
             data.Color = Color;
             data.MultipliedPoints = new Vector2[PointsLenght];
             data.IsClosed = IsClosed;
-            Array.Copy(MultipliedPoints, data.MultipliedPoints, PointsLenght);
+
+            if (MultipliedPoints != null)
+                Array.Copy(MultipliedPoints, data.MultipliedPoints, PointsLenght);
 
             return data;
         }

@@ -39,7 +39,10 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             Collider2dPointsGetter.GetCapsuleCoordinates(Collider, ref Points, CustomProximity, true);
 
             if (Points.Length != MultipliedPoints.Length)
-                MultipliedPoints = new Vector2[Points.Length];
+            {
+                PointsLenght = Points.Length;
+                MultipliedPoints = new Vector2[PointsLenght];
+            }
         }
     }
 }

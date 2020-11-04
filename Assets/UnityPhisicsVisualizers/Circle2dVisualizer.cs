@@ -46,6 +46,7 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             MultipliedRadius = Radius * Mathf.Max(Mathf.Abs(lossyScale.x), Mathf.Abs(lossyScale.y));
 
             Collider2dPointsGetter.GetCircleCoordinates(MultipliedCenter, MultipliedRadius, ref MultipliedPoints, CustomProximity);
+            PointsLenght = MultipliedPoints.Length;
         }
     }
 }
