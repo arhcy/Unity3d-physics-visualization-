@@ -117,8 +117,8 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             else
                 OnRecalculate(Collider, ref Points);
 
-            var main = Camera.main;
-            var ppu = (UsePixelSize && main != null) ? (main.orthographicSize * 2) / Screen.height : 1;
+            var main = GetMainCamera();
+            var ppu = (UsePixelSize && main != null) ? (main.orthographicSize * 2) / main.pixelHeight : 1;
             
             PolygonTriangulator.TriangulateAsLine(Points, MeshInstance, ppu * Thickness, Closed);
 
@@ -136,6 +136,25 @@ namespace Artics.Physics.UnityPhisicsVisualizers
                 ShaderProperty.SetColor(ColorId, MeshColor);
                 MeshRenderer.SetPropertyBlock(ShaderProperty);
             }
+        }
+
+        private static Camera GetMainCamera()
+        {
+            var main = Camera.main;
+
+#if UNITY_EDITOR
+            // In edit mode the scene camera may be disabled, which Camera.main ignores.
+            if (main == null && !Application.isPlaying)
+            {
+                foreach (var camera in FindObjectsOfType<Camera>(true))
+                {
+                    if (camera.CompareTag("MainCamera"))
+                        return camera;
+                }
+            }
+#endif
+
+            return main;
         }
 
         [ContextMenu("Rebuild")]
