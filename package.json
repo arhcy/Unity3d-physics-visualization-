@@ -1,5 +1,5 @@
 {
-  "name": "Artics.Physics.UnityPhisicsVisualizers",
+  "name": "artics.physics.unityphisicsvisualizers",
   "version": "6.0.0",
   "displayName": "Unity3d Physics2d Visualizer",
   "description": "Tool to help you visualize 2d physics colliders and joints. You can track their transform at runtime. Just add the proper component to GameObject with a Collider2D or Joint2D.",
