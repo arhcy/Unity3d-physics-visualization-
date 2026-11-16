@@ -34,3 +34,6 @@ sysinfo.txt
 *.unitypackage
 ProjectSettings/
 UnityPackageManager/manifest.json
+
+# Rider
+.idea/

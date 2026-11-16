@@ -146,9 +146,10 @@ namespace Artics.Physics.UnityPhisicsVisualizers
             // In edit mode the scene camera may be disabled, which Camera.main ignores.
             if (main == null && !Application.isPlaying)
             {
-                foreach (var camera in FindObjectsOfType<Camera>(true))
+                // Includes inactive objects and prefab assets, so keep scene objects only.
+                foreach (var camera in Resources.FindObjectsOfTypeAll<Camera>())
                 {
-                    if (camera.CompareTag("MainCamera"))
+                    if (camera.gameObject.scene.IsValid() && camera.CompareTag("MainCamera"))
                         return camera;
                 }
             }
