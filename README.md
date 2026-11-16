@@ -1,32 +1,27 @@
 # Unity3d Physics2d Visualizer
 
-Tool to help you visualize 2d physics colliders and joints. You can track their transform at runtime. Just add the proper component to GameObject with a Collider2D. Supported Unity 5.6 and higher.
+Tool to help you visualize 2d physics colliders and joints. You can track their transform at runtime. Just add the proper component to GameObject with a Collider2D.
 
  __Warning:__ Objects with scaled parent can render incorrectly. 
-
-## Installation (Unity Package Manager)
-
-Window → Package Manager → `+` → *Add package from git URL*:
-
-```
-https://github.com/arhcy/Unity3d-physics-visualization-.git
-```
-
-or add to `Packages/manifest.json`:
-
-```json
-"artics.physics.unityphisicsvisualizers": "https://github.com/arhcy/Unity3d-physics-visualization-.git"
-```
-
-## Development
-
-The repository root is the package itself. To work on it, open `DevProject~` in Unity (2019.1.15f1) — it references the package via `file:../..`. Example scenes can be imported from Package Manager → Samples.
 
  <p align="center">
  <img align="center" src="/Screenshots~/MovementLogger.gif">
  </p>
 
 You can visualize colliders in two ways: rendering them as mesh and using editor gizmos. Frist method needs more steps to get result, second - is very simple but works only in Editor and need to attach different components for each type of Collider2D. Also, this package includes GUI tools to batch some operations with both types of visualizers.
+
+## Contents
+
+- [Collider2dRenderer](#collider2drenderer)
+- [Gizmos visualizers](#gizmos-visualizers)
+  - [Visualizer params](#you-can-manipulate-with-3-params)
+  - [MovementLogger](#use-movementlogger-to-track-objects-transform-at-runtime-you-can-manipultate-with-8-params)
+  - [Example](#example)
+  - [Tools](#tools)
+- [Installation](#installation)
+  - [As a package (Unity 2018.3 or newer)](#as-a-package-unity-20183-or-newer)
+  - [By copying (older Unity versions)](#by-copying-older-unity-versions)
+- [Development](#development)
 
 # Collider2dRenderer:
 
@@ -99,3 +94,35 @@ You can automate routine operations for you visualizers with the new manager whi
  * `Remove all Collider2dRenderer` - removes all Collider2DRenderer found in the scene
  * `Add the Collider2dRenderer for all Colliders2d` - automatically adds Collider2Renderer visualizer for all Collider2D found in the scene
 * `Add default sprites material for all Colliders2d` - sets shared material based on "Sprites/Default" shader for all Collider2Renderer found in the scene
+
+## Installation
+
+The tool was written for Unity 2018. There are two ways to add it to a project.
+
+### As a package (Unity 2018.3 or newer)
+
+Adding it via Unity Package Manager from a git URL requires **Unity 2018.3** or newer.
+
+Add the dependency to `Packages/manifest.json` of your project:
+
+```json
+"artics.physics.unityphisicsvisualizers": "https://github.com/arhcy/Unity3d-physics-visualization-.git"
+```
+
+Starting from Unity 2019.3 you can do the same from the editor: Window → Package Manager → `+` → *Add package from git URL*:
+
+```
+https://github.com/arhcy/Unity3d-physics-visualization-.git
+```
+
+Example scenes can be imported from Package Manager → Physics2d Visualizer → Samples (Unity 2019.1 or newer).
+
+To pin a specific version, append a tag or commit hash to the URL, e.g. `...visualization-.git#<tag>`.
+
+### By copying (older Unity versions)
+
+In Unity versions older than 2018.3 the tool can still be used by simply copying the files: download the repository and copy its contents into any folder under `Assets/` of your project (for example `Assets/UnityPhisicsVisualizers`). Folders ending with `~` (`DevProject~`, `Samples~`, `Screenshots~`) are ignored by Unity and are not needed; if you want the example scenes, copy `Samples~/Examples` as `Assets/.../Examples` without the `~`.
+
+## Development
+
+The repository root is the package itself. To work on it, open `DevProject~` in Unity (2019.1.15f1) — it references the package via `file:../..`. Example scenes can be imported from Package Manager → Samples.
