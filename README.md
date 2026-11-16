@@ -9,17 +9,21 @@ Tool to help you visualize 2d physics colliders and joints. You can track their 
 Window → Package Manager → `+` → *Add package from git URL*:
 
 ```
-https://github.com/arhcy/Unity3d-physics-visualization-.git?path=/Assets/UnityPhisicsVisualizers
+https://github.com/arhcy/Unity3d-physics-visualization-.git
 ```
 
 or add to `Packages/manifest.json`:
 
 ```json
-"artics.physics.unityphisicsvisualizers": "https://github.com/arhcy/Unity3d-physics-visualization-.git?path=/Assets/UnityPhisicsVisualizers"
+"artics.physics.unityphisicsvisualizers": "https://github.com/arhcy/Unity3d-physics-visualization-.git"
 ```
 
+## Development
+
+The repository root is the package itself. To work on it, open `DevProject~` in Unity (2019.1.15f1) — it references the package via `file:../..`. Example scenes can be imported from Package Manager → Samples.
+
  <p align="center">
- <img align="center" src="/Screenshots/MovementLogger.gif">
+ <img align="center" src="/Screenshots~/MovementLogger.gif">
  </p>
 
 You can visualize colliders in two ways: rendering them as mesh and using editor gizmos. Frist method needs more steps to get result, second - is very simple but works only in Editor and need to attach different components for each type of Collider2D. Also, this package includes GUI tools to batch some operations with both types of visualizers.
@@ -29,7 +33,7 @@ You can visualize colliders in two ways: rendering them as mesh and using editor
 New version supports visualizing through Collider2dRenderer which renders colliders shape to standard mesh. This type of visualization lacks most features of the gizmos-based visualizers but it works in standalone builds, can be batched in one draw call to minimize graphics overhead impact. 
 
  <p align="center">
- <img align="center" width="60%" src="/Screenshots/Scr2.png">
+ <img align="center" width="60%" src="/Screenshots~/Scr2.png">
  </p>
  
   * `AlwaysUpdate` - updates mesh every frame
@@ -44,7 +48,7 @@ New version supports visualizing through Collider2dRenderer which renders collid
 You can automate routine operations for you visualizers with the new manager which can be found at "Tools/Physics2dVisualizer/Open Manager" menu.
 
  <p align="center">
- <img align="center" src="/Screenshots/VisualizerWindow.gif">
+ <img align="center" src="/Screenshots~/VisualizerWindow.gif">
  </p>
  
 # Gizmos visualizers:
@@ -79,13 +83,13 @@ You can automate routine operations for you visualizers with the new manager whi
    
    ### Example:
  <p align="center">
- <img align="center" width="80%" src="/Screenshots/Scr1.png">
+ <img align="center" width="80%" src="/Screenshots~/Scr1.png">
  </p>
  
     
    ### Tools:
  <p align="center">
- <img align="center" width="60%" src="/Screenshots/Screenshot_50.png">
+ <img align="center" width="60%" src="/Screenshots~/Screenshot_50.png">
  </p>
  
  This tools can help you to automate some routine operations without opening manager window.

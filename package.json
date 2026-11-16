@@ -1,11 +1,18 @@
 {
   "name": "artics.physics.unityphisicsvisualizers",
-  "version": "6.0.1",
+  "version": "6.1.0",
   "displayName": "Unity3d Physics2d Visualizer",
   "description": "Tool to help you visualize 2d physics colliders and joints. You can track their transform at runtime. Just add the proper component to GameObject with a Collider2D or Joint2D.",
   "unity": "2018.1",
   "author": {
     "name": "Archy Piragkov",
     "url": "https://github.com/arhcy"
-  }
+  },
+  "samples": [
+    {
+      "displayName": "Examples",
+      "description": "Example scenes with colliders, joints and visualizers.",
+      "path": "Samples~/Examples"
+    }
+  ]
 }
