@@ -4,6 +4,20 @@ Tool to help you visualize 2d physics colliders and joints. You can track their 
 
  __Warning:__ Objects with scaled parent can render incorrectly. 
 
+## Installation (Unity Package Manager)
+
+Window → Package Manager → `+` → *Add package from git URL*:
+
+```
+https://github.com/arhcy/Unity3d-physics-visualization-.git?path=/Assets/UnityPhisicsVisualizers
+```
+
+or add to `Packages/manifest.json`:
+
+```json
+"artics.physics.unityphisicsvisualizers": "https://github.com/arhcy/Unity3d-physics-visualization-.git?path=/Assets/UnityPhisicsVisualizers"
+```
+
  <p align="center">
  <img align="center" src="/Screenshots/MovementLogger.gif">
  </p>

@@ -1,0 +1,11 @@
+{
+    "name": "Artics.Physics.UnityPhisicsVisualizers.Editor",
+    "references": [
+        "Artics.Physics.UnityPhisicsVisualizers"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}
